@@ -8,7 +8,7 @@ import java.util.Map;
 		Currently represents a finished hand instead of a hand in-progress.
  */
 public class Round {
-	public static enum Result {TSUMO, RON, DRAW};
+	public static enum Result {TSUMO, RON, DRAW}
 
 	private Map<Player, Hand> winners;
 	private Player loser;
@@ -17,12 +17,22 @@ public class Round {
 	private Result winType;
 
 
-	// Generic riichi handling
+	/**
+	 * Default constructor to handle things that occur every round (only riichi bets).
+	 *
+	 * @param playersInRiichi	Array of players who declared riichi this round.
+	 */
 	private Round(Player[] playersInRiichi){
 		inRiichi = playersInRiichi == null ? new Player[]{} : playersInRiichi;
 	}
 
-	// Ron
+	/**
+	 * Create a hand in which one or more players won off another.
+	 *
+	 * @param winningPlayers	Map of Player(s) that won to hands they won with.
+	 * @param losingPlayer		Player that lost.
+	 * @param playersInRiichi	Array of Players who declared riichi this round.
+	 */
 	public Round(Map<Player, Hand> winningPlayers, Player losingPlayer, Player[] playersInRiichi){
 		this(playersInRiichi);
 		this.winners = winningPlayers;
@@ -30,14 +40,27 @@ public class Round {
 		winType = Result.RON;
 	}
 
-	// Tsumo
-	public Round(Map<Player, Hand> winningPlayer, Player[] playersInRiichi){
+	/**
+	 * Create a hand in which one player self-drew their own winning tile.
+	 *
+	 * @param winningPlayer		Map of Player who won hand to hand they won with
+	 *                          Throws IllegalArgumentException if the Map contains more than one key
+	 * @param playersInRiichi	Array of Players who declared riichi this round
+	 */
+	public Round(Map<Player, Hand> winningPlayer, Player[] playersInRiichi) throws IllegalArgumentException{
 		this(playersInRiichi);
+		if(winningPlayer.size() > 1) throw new IllegalArgumentException("Only one player can win by tsumo.");
 		winners = winningPlayer;
 		winType = Result.TSUMO;
 	}
 
-	// Ryuukyoku (Internally, aborts can be counted as all 4 players in tenpai.)
+	/**
+	 * Create a hand that made it to draw.
+	 * Aborts should be handled as though all four players made it to tenpai.
+	 *
+	 * @param tenpaiPlayers		Array of Players who achieved tenpai
+	 * @param playersInRiichi	Array of Players who declared riichi this round
+	 */
 	public Round(Player[] tenpaiPlayers, Player[] playersInRiichi){
 		this(playersInRiichi);
 		tenpai = tenpaiPlayers;
