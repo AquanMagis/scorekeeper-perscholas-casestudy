@@ -4,13 +4,13 @@ public class Hand {
 	private int han;
 	private int fu;
 	private int yakuman = 0;
-	static int NONDEALER = 0;
-	static int DEALER = 1;
-	static int MANGAN = 2000;
-	static int HANEMAN = 3000;
-	static int BAIMAN = 4000;
-	static int SANBAIMAN = 6000;
-	static int YAKUMAN = 8000;
+	public static final int NONDEALER = 0;
+	public static final int DEALER = 1;
+	public static final int MANGAN = 2000;
+	public static final int HANEMAN = 3000;
+	public static final int BAIMAN = 4000;
+	public static final int SANBAIMAN = 6000;
+	public static final int YAKUMAN = 8000;
 
 	public Hand(int han, int fu){
 		this.han = han;
