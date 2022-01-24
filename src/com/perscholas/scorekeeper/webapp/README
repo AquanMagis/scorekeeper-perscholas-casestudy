@@ -1,0 +1,16 @@
+This is a very, very rough draft of the website for my Scorekeeper case study.
+
+The current iteration includes login, registration, and welcome page prototypes, as well as a credits page for sourced resources.
+On the login page:
+    username: test
+    password: test
+will validate to reach the welcome page.
+
+Completing the registration page will also lead to the welcome page.
+    Usernames must contain only alphanumeric characters, dashes, and underscores.
+    Both password and confirm password boxes must contain the same password. Passwords can take any character.
+    Emails only use default validation that comes with email input type.
+    All values under the optional section are optional. All others are required.
+
+Game creation screen can be accessed from the welcome menu.
+    Sliding carousel will change to the appropriate values for each rule set.

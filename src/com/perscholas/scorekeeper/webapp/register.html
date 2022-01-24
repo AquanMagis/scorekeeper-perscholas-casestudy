@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>ScoreKeeper Registration</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="css/default.css" type="text/css">
+		<script src="./js/functions.js"></script>
+
+		<style>
+		</style>
+		<script>
+			function pageLoaded(){
+				centerColumns();
+				addUsernameValidation();
+			}
+			function centerColumns(){
+				// I think this counts for the collection requirement? It's a collection of Nodes.
+				// TODO: Replace all of this with proper use of Bootstrap in the final version.
+				let tds = document.querySelectorAll("td:only-child");
+				for(let td of tds){
+					td.setAttribute("colspan", 2);
+				}
+			}
+			function onSubmit(){
+				password = document.getElementById("password").value;
+				confirm = document.getElementById("passwordConfirm").value;
+				if(password != confirm){
+					event.preventDefault();
+					window.alert("Password mismatch.");
+				}
+			}
+		</script>
+	</head>
+	<body onload="pageLoaded()">
+		<h1>ScoreKeeper Alpha</h1>
+		<form class="container-sm" onsubmit="onSubmit()" action="startup.html">
+			<table class="formTable">
+				<tbody>
+					<tr><td><h2>Register</h2></td></tr>
+					<tr>
+						<td><input id="username" type="text" name="register" class="register" placeholder="Desired Username"></td>
+						<td><input id="email" type="email" name="register" class="register" placeholder="Email" required></td>
+					</tr>
+					<tr>
+                        <td><input id="password" type="password" name="register" class="register" placeholder="Password" required></td>
+					    <td><input id="passwordConfirm" type="password" name="register" class="register" placeholder="Confirm Password" required></td></tr>
+					<tr><td>Optional:</td></tr>
+                    <tr>
+                        <td><input id="firstName" type="text" name="register" class="register" placeholder="First Name"></td>
+						<td><input id="lastName" type="text" name="register" class="register" placeholder="Last Name"></td>
+                    </tr>
+					<tr><td>
+						<select id="club" name="register" class="register">
+							<option selected>[Club Affiliation]</option>
+							<option>South East Michigan Mahjong</option>
+						</select>
+					</td></tr>
+                    <tr><td><input id="login" type="submit" name="register" class="btn btn-light" value="Register"></td></tr>
+				</tbody>
+			</table>
+		</form>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+	</body>
+</html>

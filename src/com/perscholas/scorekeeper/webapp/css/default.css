@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto+Slab&display=swap');
+body{
+    text-align: center;
+    background-color: midnightblue;
+    color: white;
+    //padding: 5% 0;
+    font-family: 'Roboto Slab', serif;
+}
+h1{
+    font-family: 'Fredoka One', cursive;
+}
+input{
+    text-align: center;
+    margin: 10px;
+}
+a{
+    color:white;
+}
+.formTable{
+    background-color: #0000007F;
+    padding: 20px;
+    border-radius: 15px;
+    margin: auto;
+    min-width: 20%;
+    max-width: 90%;
+}
+input:placeholder{
+    opacity: 50%;
+}
+input:focus::placeholder{
+    opacity: 25%;
+}
+input:invalid:not(:focus){
+    color: crimson;
+}
