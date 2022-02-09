@@ -77,6 +77,7 @@ public class Game {
 		score.put(winner, score.get(winner) + change);
 	}
 
+	//TODO: consider moving these handleX() methods to Round, for better coupling
 	private void handleTsumo(Round round) throws IllegalArgumentException{
 		if(round.getWinType() != Round.Result.TSUMO)
 			throw new IllegalArgumentException("Round ended by " + round.getWinType() + "; tsumo expected.");

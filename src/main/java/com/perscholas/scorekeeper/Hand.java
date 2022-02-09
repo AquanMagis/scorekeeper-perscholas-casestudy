@@ -21,7 +21,6 @@ public class Hand {
 		this.yakuman = yakuman;
 	}
 
-	// TODO: Needs mangan/haneman/baiman/sanbaiman handling.
 	public int getBaseValue(){
 		return yakuman == 0 ? getLimit((int)(fu * Math.pow(2, han + 2))) : YAKUMAN * yakuman;
 	}
