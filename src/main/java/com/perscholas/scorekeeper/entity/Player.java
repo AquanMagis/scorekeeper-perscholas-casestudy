@@ -1,16 +1,22 @@
 package com.perscholas.scorekeeper.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
 public class Player {
-	String name;
+	int id;
+	String username;
 	String password;
 	String email;
+	String firstName;
+	String lastName;
 	List<Game> gamesList;
 
-	public Player(String name){
-		this.name = name;
+	public Player(String username){
+		this.username = username;
 	}
-
-	public String getName() { return name; }
 }

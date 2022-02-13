@@ -150,11 +150,11 @@ public class Game {
 		winners.put(p2, winningHand);
 		Round r1 = new Round(winners, new Player[]{});
 		StringJoiner joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		//TODO: Make an actual function that returns the dealer
 		game.handleTsumo(r1);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 
@@ -163,10 +163,10 @@ public class Game {
 		winners.put(p2, winningHand);
 		Round r2 = new Round(winners, new Player[]{p1});
 		joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleTsumo(r2);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 
@@ -175,10 +175,10 @@ public class Game {
 		winners.put(p2, winningHand);
 		Round r3 = new Round(winners, new Player[]{p1, p2, p4});
 		joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleTsumo(r3);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 
@@ -187,10 +187,10 @@ public class Game {
 		winners.put(p3, winningHand);
 		Round r4 = new Round(winners, p2, new Player[]{});
 		joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleRon(r4);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 
@@ -203,10 +203,10 @@ public class Game {
 		winners.put(p4, winningHand);
 		Round r5 = new Round(winners, p1, new Player[]{p1});
 		joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleRon(r5);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 
@@ -219,50 +219,50 @@ public class Game {
 		winners.put(p4, winningHand);
 		Round r6 = new Round(winners, p3, new Player[]{p1});
 		joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleRon(r6);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 
 		Player[] inTenpai = {p1, p2, p3, p4};
 		Round r7 = new Round(inTenpai, new Player[]{p1});
 		joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleDraw(r7);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 
 		inTenpai = new Player[]{p2, p3, p4};
 		Round r8 = new Round(inTenpai, new Player[]{});
 		joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleDraw(r8);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 
 		inTenpai = new Player[]{p1, p3};
 		Round r9 = new Round(inTenpai, new Player[]{});
 		joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleDraw(r9);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 
 		inTenpai = new Player[]{p1, p3};
 		Round r10 = new Round(inTenpai, new Player[]{});
 		joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleDraw(r10);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 
@@ -271,10 +271,10 @@ public class Game {
 		winners.put(p2, winningHand);
 		Round r11 = new Round(winners, p1, new Player[]{p1});
 		joiner = new StringJoiner("/ /", "/", "/");
-		joiner.add("Dealer:" + game.players[game.currentDealer].getName());
+		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleRon(r11);
 		for(Player p: game.players){
-			joiner.add(String.format("%s: %d", p.getName(), game.score.get(p)));
+			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
 	}
