@@ -1,13 +1,20 @@
 package com.perscholas.scorekeeper.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.*;
 
+@Getter
+@Setter
 public class Game {
 	public static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
 	private static final int DEFAULT_STARTING_SCORE = 25000;
 	private static final int DEFAULT_REPEAT_VALUE = 100;
 	private static final int DEFAULT_RIICHI_VALUE = 1000;
 	private static final int DEFAULT_TENPAI_PAYMENT = 3000;
+
+	private int id;
 
 	private int round = EAST;
 	private int currentDealer = EAST;

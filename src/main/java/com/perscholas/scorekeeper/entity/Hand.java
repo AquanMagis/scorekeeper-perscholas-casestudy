@@ -1,6 +1,13 @@
 package com.perscholas.scorekeeper.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Hand {
+	private int id;
+
 	private int han;
 	private int fu;
 	private int yakuman = 0;

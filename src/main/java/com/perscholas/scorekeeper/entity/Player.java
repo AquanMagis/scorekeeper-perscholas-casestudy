@@ -8,13 +8,13 @@ import java.util.List;
 @Getter
 @Setter
 public class Player {
-	int id;
-	String username;
-	String password;
-	String email;
-	String firstName;
-	String lastName;
-	List<Game> gamesList;
+	private int id;
+	private String username;
+	private String password;
+	private String email;
+	private String firstName;
+	private String lastName;
+	private List<Game> gamesList;
 
 	public Player(String username){
 		this.username = username;

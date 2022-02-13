@@ -1,5 +1,8 @@
 package com.perscholas.scorekeeper.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Map;
 
 /*
@@ -7,8 +10,12 @@ import java.util.Map;
 	Current issues:
 		Currently represents a finished hand instead of a hand in-progress.
  */
+@Getter
+@Setter
 public class Round {
-	public static enum Result {TSUMO, RON, DRAW}
+	public enum Result {TSUMO, RON, DRAW}
+
+	private int id;
 
 	private Map<Player, Hand> winners;
 	private Player loser;
