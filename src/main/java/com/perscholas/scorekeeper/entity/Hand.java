@@ -1,4 +1,4 @@
-package com.perscholas.scorekeeper;
+package com.perscholas.scorekeeper.entity;
 
 public class Hand {
 	private int han;

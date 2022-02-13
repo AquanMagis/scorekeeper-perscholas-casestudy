@@ -1,4 +1,4 @@
-package com.perscholas.scorekeeper;
+package com.perscholas.scorekeeper.entity;
 
 import java.util.*;
 
