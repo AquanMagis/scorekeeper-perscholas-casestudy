@@ -3,6 +3,9 @@ package com.perscholas.scorekeeper.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Map;
 
 /*
@@ -15,6 +18,8 @@ import java.util.Map;
 public class Round {
 	public enum Result {TSUMO, RON, DRAW}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private Map<Player, Hand> winners;

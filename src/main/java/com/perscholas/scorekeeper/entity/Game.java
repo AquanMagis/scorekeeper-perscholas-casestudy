@@ -3,10 +3,12 @@ package com.perscholas.scorekeeper.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.*;
 
 @Getter
 @Setter
+@Entity
 public class Game {
 	public static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
 	private static final int DEFAULT_STARTING_SCORE = 25000;
@@ -14,6 +16,8 @@ public class Game {
 	private static final int DEFAULT_RIICHI_VALUE = 1000;
 	private static final int DEFAULT_TENPAI_PAYMENT = 3000;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private int round = EAST;
@@ -28,6 +32,8 @@ public class Game {
 	private int riichiValue;
 	private int numPlayers = 4;
 	private int tenpaiPayment;
+
+	public Game(){}
 
 	public Game(Player p1, Player p2, Player p3, Player p4){
 		this(p1, p2, p3, p4, DEFAULT_STARTING_SCORE);
