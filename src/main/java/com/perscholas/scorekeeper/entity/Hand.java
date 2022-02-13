@@ -3,12 +3,12 @@ package com.perscholas.scorekeeper.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
+@Entity
+@Table(name = "hand")
 public class Hand {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +24,8 @@ public class Hand {
 	public static final int BAIMAN = 4000;
 	public static final int SANBAIMAN = 6000;
 	public static final int YAKUMAN = 8000;
+
+	public Hand() {}
 
 	public Hand(int han, int fu){
 		this.han = han;

@@ -2,14 +2,15 @@ package com.perscholas.scorekeeper.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
 @Setter
+@Entity
+@Table(name = "player")
 public class Player {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,8 @@ public class Player {
 	private String firstName;
 	private String lastName;
 	private List<Game> gamesList;
+
+	public Player() {}
 
 	public Player(String username){
 		this.username = username;

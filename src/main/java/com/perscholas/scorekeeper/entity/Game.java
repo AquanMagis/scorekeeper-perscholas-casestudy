@@ -9,6 +9,7 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
+@Table(name = "game")
 public class Game {
 	public static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
 	private static final int DEFAULT_STARTING_SCORE = 25000;

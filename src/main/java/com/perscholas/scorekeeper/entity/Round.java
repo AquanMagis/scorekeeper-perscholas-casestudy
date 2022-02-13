@@ -3,9 +3,7 @@ package com.perscholas.scorekeeper.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Map;
 
 /*
@@ -15,6 +13,8 @@ import java.util.Map;
  */
 @Getter
 @Setter
+@Entity
+@Table(name = "round")
 public class Round {
 	public enum Result {TSUMO, RON, DRAW}
 
@@ -23,11 +23,13 @@ public class Round {
 	private int id;
 
 	private Map<Player, Hand> winners;
+	@ManyToOne
 	private Player loser;
 	private Player[] tenpai;
 	private Player[] inRiichi;
 	private Result winType;
 
+	public Round(){}
 
 	/**
 	 * Default constructor to handle things that occur every round (only riichi bets).
