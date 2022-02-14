@@ -29,6 +29,9 @@ public class Round {
 	private Player[] inRiichi;
 	private Result winType;
 
+	/**
+	 * Basic constructor for bean definition.
+	 */
 	public Round(){}
 
 	/**
