@@ -80,40 +80,4 @@ public class Round {
 		tenpai = tenpaiPlayers;
 		winType = Result.DRAW;
 	}
-
-	public Map<Player, Hand> getWinners() {
-		return winners;
-	}
-
-	public void setWinners(Map<Player, Hand> winners) {
-		this.winners = winners;
-	}
-
-	public Player getLoser() {
-		return loser;
-	}
-
-	public void setLoser(Player loser) {
-		this.loser = loser;
-	}
-
-	public Player[] getTenpai() {
-		return tenpai;
-	}
-
-	public void setTenpai(Player[] tenpai) {
-		this.tenpai = tenpai;
-	}
-
-	public Player[] getInRiichi() {
-		return inRiichi;
-	}
-
-	public void setInRiichi(Player[] inRiichi) {
-		this.inRiichi = inRiichi;
-	}
-
-	public Result getWinType() {
-		return winType;
-	}
 }

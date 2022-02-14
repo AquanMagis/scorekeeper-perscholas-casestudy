@@ -25,5 +25,8 @@ CREATE TABLE round(
 
 CREATE TABLE hand(
 	id INT AUTO_INCREMENT NOT NULL,
+	han INT(3),
+	fu INT(3),
+	yakuman INT(2),
 	PRIMARY KEY(id)
 );
