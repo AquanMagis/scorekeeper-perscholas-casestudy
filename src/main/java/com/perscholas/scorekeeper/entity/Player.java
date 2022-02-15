@@ -3,10 +3,8 @@ package com.perscholas.scorekeeper.entity;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter

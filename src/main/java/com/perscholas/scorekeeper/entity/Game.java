@@ -2,7 +2,6 @@ package com.perscholas.scorekeeper.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
 import java.util.*;
@@ -141,11 +140,11 @@ public class Game {
 		if(round.getWinType() != Round.Result.DRAW)
 			throw new IllegalArgumentException("Round ended by " + round.getWinType() + "; draw expected.");
 		List<Player> inTenpai = round.getTenpai();
-		handleRepeats(Arrays.asList(inTenpai).contains(players.get(currentDealer)), true);
+		handleRepeats(inTenpai.contains(players.get(currentDealer)), true);
 		handleRiichis(null, round.getInRiichi());
 		if(inTenpai.size() == 0 || inTenpai.size() == players.size()) return;
 		Player[] noten = players.stream()
-				.filter(p -> !Arrays.asList(inTenpai).contains(p)).toArray(Player[]::new);
+				.filter(p -> !inTenpai.contains(p)).toArray(Player[]::new);
 		for(Player p: inTenpai){
 			score.put(p, score.get(p) + tenpaiPayment / inTenpai.size());
 		}

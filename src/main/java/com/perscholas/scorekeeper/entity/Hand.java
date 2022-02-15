@@ -33,12 +33,14 @@ public class Hand {
 
 	public Hand() {}
 
-	public Hand(Player player, int han, int fu){
+	public Hand(Player winner, int han, int fu){
+		this.winner = winner;
 		this.han = han;
 		this.fu = fu;
 	}
 
-	public Hand(Player player, int yakuman){
+	public Hand(Player winner, int yakuman){
+		this.winner = winner;
 		this.yakuman = yakuman;
 	}
 
