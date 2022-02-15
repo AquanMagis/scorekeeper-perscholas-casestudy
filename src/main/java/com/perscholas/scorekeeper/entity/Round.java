@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Map;
+import java.util.*;
 
 /*
 	Defines a game hand (named round to avoid confusion with a scored hand.)
@@ -22,11 +22,18 @@ public class Round {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private Map<Player, Hand> winners;
+	//private Map<Player, Hand> winners;
+	@OneToMany(targetEntity = Hand.class)
+	private List<Hand> hands;
 	@ManyToOne
 	private Player loser;
-	private Player[] tenpai;
-	private Player[] inRiichi;
+	@OrderColumn(name = "in_tenpai")
+	@OneToMany(targetEntity = Player.class)
+	private List<Player> tenpai;
+	@OrderColumn(name = "in_riichi")
+	@OneToMany(targetEntity = Player.class)
+	private List<Player> inRiichi;
+	@Column(name = "win_type")
 	private Result winType;
 
 	/**
@@ -40,19 +47,19 @@ public class Round {
 	 * @param playersInRiichi	Array of players who declared riichi this round.
 	 */
 	private Round(Player[] playersInRiichi){
-		inRiichi = playersInRiichi == null ? new Player[]{} : playersInRiichi;
+		inRiichi = playersInRiichi == null ? new ArrayList<>() : Arrays.asList(playersInRiichi);
 	}
 
 	/**
 	 * Create a hand in which one or more players won off another.
 	 *
-	 * @param winningPlayers	Map of Player(s) that won to hands they won with.
+	 * @param winningHands		List of hands that won.
 	 * @param losingPlayer		Player that lost.
 	 * @param playersInRiichi	Array of Players who declared riichi this round.
 	 */
-	public Round(Map<Player, Hand> winningPlayers, Player losingPlayer, Player[] playersInRiichi){
+	public Round(List<Hand> winningHands, Player losingPlayer, Player[] playersInRiichi){
 		this(playersInRiichi);
-		this.winners = winningPlayers;
+		this.hands = winningHands;
 		this.loser = losingPlayer;
 		winType = Result.RON;
 	}
@@ -60,14 +67,14 @@ public class Round {
 	/**
 	 * Create a hand in which one player self-drew their own winning tile.
 	 *
-	 * @param winningPlayer		Map of Player who won hand to hand they won with
+	 * @param winningHand		List containing only the hand that won.
 	 *                          Throws IllegalArgumentException if the Map contains more than one key
 	 * @param playersInRiichi	Array of Players who declared riichi this round
 	 */
-	public Round(Map<Player, Hand> winningPlayer, Player[] playersInRiichi) throws IllegalArgumentException{
+	public Round(List<Hand> winningHand, Player[] playersInRiichi) throws IllegalArgumentException{
 		this(playersInRiichi);
-		if(winningPlayer.size() > 1) throw new IllegalArgumentException("Only one player can win by tsumo.");
-		winners = winningPlayer;
+		if(winningHand.size() > 1) throw new IllegalArgumentException("Only one player can win by tsumo.");
+		hands = winningHand;
 		winType = Result.TSUMO;
 	}
 
@@ -80,7 +87,14 @@ public class Round {
 	 */
 	public Round(Player[] tenpaiPlayers, Player[] playersInRiichi){
 		this(playersInRiichi);
-		tenpai = tenpaiPlayers;
+		tenpai = Arrays.asList(tenpaiPlayers);
 		winType = Result.DRAW;
+	}
+
+	public Map<Player, Hand> getWinners(){
+		HashMap<Player, Hand> ret = new HashMap<>();
+		for(Hand h: hands)
+			ret.put(h.getWinner(), h);
+		return ret;
 	}
 }

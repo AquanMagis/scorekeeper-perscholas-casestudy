@@ -14,9 +14,15 @@ public class Hand {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(name = "han")
 	private int han;
+	@Column(name = "fu")
 	private int fu;
+	@Column(name = "yakuman")
 	private int yakuman = 0;
+	@ManyToOne
+	private Player winner;
+
 	public static final int NONDEALER = 0;
 	public static final int DEALER = 1;
 	public static final int MANGAN = 2000;
@@ -27,12 +33,12 @@ public class Hand {
 
 	public Hand() {}
 
-	public Hand(int han, int fu){
+	public Hand(Player player, int han, int fu){
 		this.han = han;
 		this.fu = fu;
 	}
 
-	public Hand(int yakuman){
+	public Hand(Player player, int yakuman){
 		this.yakuman = yakuman;
 	}
 
@@ -71,13 +77,14 @@ public class Hand {
 	}
 
 	public static void main(String[] args) {
-		Hand testHand = new Hand(3, 30);
+		Player test = new Player("Test");
+		Hand testHand = new Hand(test, 3, 30);
 		System.out.println(testHand.getRonScore(false));
 		System.out.println(testHand.getRonScore(true));
 		System.out.println(testHand.getTsumoScores()[NONDEALER]);
 		System.out.println(testHand.getTsumoScores()[DEALER]);
 
-		Hand testYakuman = new Hand(1);
+		Hand testYakuman = new Hand(test, 1);
 		System.out.println(testYakuman.getRonScore(false));
 		System.out.println(testYakuman.getRonScore(true));
 		System.out.println(testYakuman.getTsumoScores()[NONDEALER]);
@@ -86,7 +93,7 @@ public class Hand {
 		for(int h = 1; h < 13; h++){
 			System.out.println("Han  Fu |    Tsumo    | Non-Dealer | Dealer");
 			for(int f = 20; f < 130; f += 10){
-				Hand loopHand = new Hand(h, f);
+				Hand loopHand = new Hand(test, h, f);
 				int[] tsumo = loopHand.getTsumoScores();
 				int nondealerRon = loopHand.getRonScore(false);
 				int dealerRon = loopHand.getRonScore(true);

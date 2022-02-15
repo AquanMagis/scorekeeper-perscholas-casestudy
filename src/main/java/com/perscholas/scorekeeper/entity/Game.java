@@ -2,6 +2,7 @@ package com.perscholas.scorekeeper.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
 import java.util.*;
@@ -24,9 +25,14 @@ public class Game {
 	private int round = EAST;
 	private int currentDealer = EAST;
 	private int repeats = 0;
-	private Player[] players;
+	@OneToMany(targetEntity = Player.class)
+	@OrderColumn
+	private List<Player> players;
+	@OneToMany(targetEntity = Round.class)
+	@OrderColumn
 	private List<Round> hands = new LinkedList<>();
 	private int startingScore;
+	@Transient
 	private Map<Player, Integer> score = new HashMap<>();
 	private int currentRiichis = 0;
 	private int repeatValue;
@@ -41,7 +47,7 @@ public class Game {
 	}
 
 	public Game(Player p1, Player p2, Player p3, Player p4, int startingScore){
-		players = new Player[] {p1, p2, p3, p4};
+		players = List.of(p1, p2, p3, p4);
 		this.startingScore = startingScore;
 		this.riichiValue = DEFAULT_RIICHI_VALUE;
 		this.repeatValue = DEFAULT_REPEAT_VALUE;
@@ -77,8 +83,8 @@ public class Game {
 		}
 	}
 
-	private void handleRiichis(Player bigWinner, Player[] riichis){
-		currentRiichis += riichis.length;
+	private void handleRiichis(Player bigWinner, List<Player> riichis){
+		currentRiichis += riichis.size();
 		for(Player p: riichis) score.put(p, score.get(p) - riichiValue);
 		if(bigWinner != null){
 			score.put(bigWinner, score.get(bigWinner) + currentRiichis * riichiValue);
@@ -114,10 +120,10 @@ public class Game {
 		Player loser = round.getLoser();
 		int loserScore = 0;
 		int loserIndex = 0;
-		for(; players[loserIndex] != loser; loserIndex++);
+		for(; players.get(loserIndex) != loser; loserIndex++);
 		Player bigWinner = null;
 		for(int i = loserIndex; i < numPlayers + loserIndex; i++){
-			Player winner = players[i % numPlayers];
+			Player winner = players.get(i % numPlayers);
 			if(round.getWinners().containsKey(winner)){
 				int handScore = round.getWinners().get(winner).getRonScore(isDealer(winner));
 				if(bigWinner == null) {
@@ -127,21 +133,21 @@ public class Game {
 				exchangePoints(winner, loser, handScore);
 			}
 		}
-		handleRepeats(round.getWinners().containsKey(players[currentDealer]), false);
+		handleRepeats(round.getWinners().containsKey(players.get(currentDealer)), false);
 		handleRiichis(bigWinner, round.getInRiichi());
 	}
 
 	private void handleDraw(Round round) throws IllegalArgumentException{
 		if(round.getWinType() != Round.Result.DRAW)
 			throw new IllegalArgumentException("Round ended by " + round.getWinType() + "; draw expected.");
-		Player[] inTenpai = round.getTenpai();
-		handleRepeats(Arrays.asList(inTenpai).contains(players[currentDealer]), true);
+		List<Player> inTenpai = round.getTenpai();
+		handleRepeats(Arrays.asList(inTenpai).contains(players.get(currentDealer)), true);
 		handleRiichis(null, round.getInRiichi());
-		if(inTenpai.length == 0 || inTenpai.length == players.length) return;
-		Player[] noten = Arrays.stream(players)
+		if(inTenpai.size() == 0 || inTenpai.size() == players.size()) return;
+		Player[] noten = players.stream()
 				.filter(p -> !Arrays.asList(inTenpai).contains(p)).toArray(Player[]::new);
 		for(Player p: inTenpai){
-			score.put(p, score.get(p) + tenpaiPayment / inTenpai.length);
+			score.put(p, score.get(p) + tenpaiPayment / inTenpai.size());
 		}
 		for(Player p: noten){
 			score.put(p, score.get(p) - tenpaiPayment / noten.length);
@@ -149,20 +155,20 @@ public class Game {
 	}
 
 	private boolean isDealer(Player p){
-		return p == players[currentDealer];
+		return p == players.get(currentDealer);
 	}
 
-	public static void main(String[] args) {
+	// TODO: Either fix this stuff up or make proper tests.
+	/*public static void main(String[] args) {
 		Player p1 = new Player("Aaron");
 		Player p2 = new Player("Alice");
 		Player p3 = new Player("Emerald");
 		Player p4 = new Player("Crystal");
 		Game game = new Game(p1, p2, p3, p4);
 
-		Map<Player, Hand> winners = new HashMap<>();
-		Hand winningHand = new Hand(4, 30);
-		winners.put(p2, winningHand);
-		Round r1 = new Round(winners, new Player[]{});
+		Hand winningHand = new Hand(p2, 4, 30);
+		//winners.put(p2, winningHand);
+		Round r1 = new Round(winningHand, new Player[]{});
 		StringJoiner joiner = new StringJoiner("/ /", "/", "/");
 		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		//TODO: Make an actual function that returns the dealer
@@ -172,10 +178,8 @@ public class Game {
 		}
 		System.out.println(joiner);
 
-		winningHand = new Hand(2, 30);
-		winners.clear();
-		winners.put(p2, winningHand);
-		Round r2 = new Round(winners, new Player[]{p1});
+		winningHand = new Hand(p2, 2, 30);
+		Round r2 = new Round(winningHand, new Player[]{p1});
 		joiner = new StringJoiner("/ /", "/", "/");
 		joiner.add("Dealer:" + game.players[game.currentDealer].getUsername());
 		game.handleTsumo(r2);
@@ -291,5 +295,5 @@ public class Game {
 			joiner.add(String.format("%s: %d", p.getUsername(), game.score.get(p)));
 		}
 		System.out.println(joiner);
-	}
+	}*/
 }
