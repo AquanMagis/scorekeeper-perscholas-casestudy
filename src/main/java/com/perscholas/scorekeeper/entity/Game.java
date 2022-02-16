@@ -21,15 +21,25 @@ public class Game {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private int round = EAST;
+	private int wind = EAST;
 	private int currentDealer = EAST;
 	private int repeats = 0;
 	@OneToMany(targetEntity = Player.class)
-	@OrderColumn
+	@OrderColumn(name = "starting_seat")
+	@JoinTable(
+			joinColumns = {@JoinColumn(name = "game_id")},
+			inverseJoinColumns = {@JoinColumn(name = "player_id")},
+			uniqueConstraints = {@UniqueConstraint(columnNames = {"game_id", "player_id"})}
+	)
 	private List<Player> players;
 	@OneToMany(targetEntity = Round.class)
-	@OrderColumn
-	private List<Round> hands = new LinkedList<>();
+	@OrderColumn(name = "round_number")
+	@JoinTable(
+			joinColumns = {@JoinColumn(name = "game_id")},
+			inverseJoinColumns = {@JoinColumn(name = "round_id")},
+			uniqueConstraints = {@UniqueConstraint(columnNames = {"game_id", "round_id"})}
+	)
+	private List<Round> rounds = new LinkedList<>();
 	private int startingScore;
 	@Transient
 	private Map<Player, Integer> score = new HashMap<>();
@@ -57,7 +67,7 @@ public class Game {
 	}
 
 	public void addRound(Round round) {
-		hands.add(round);
+		rounds.add(round);
 		switch (round.getWinType()) {
 			case RON:
 				handleRon(round);
@@ -78,7 +88,7 @@ public class Game {
 		else repeats = 0;
 		if(!dealerSuccess) {
 			currentDealer = (currentDealer + 1) % numPlayers;
-			if(currentDealer == EAST) round = (round + 1) % numPlayers;
+			if(currentDealer == EAST) wind = (wind + 1) % numPlayers;
 		}
 	}
 

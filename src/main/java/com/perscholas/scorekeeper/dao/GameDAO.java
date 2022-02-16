@@ -1,5 +1,6 @@
 package com.perscholas.scorekeeper.dao;
 
+import com.perscholas.scorekeeper.entity.Game;
 import com.perscholas.scorekeeper.entity.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -7,9 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PlayerDAO extends JpaRepository<Player, Long> {
-	List<Player> findAll();
-	Player findById(int id);
-	Player findByUsername(String username);
-	Player findByEmail(String email);
+public interface GameDAO extends JpaRepository<Game, Long> {
+	List<Game> findAll();
+	Game findById(int id);
+	Game findByPlayers(Player player);
 }
