@@ -1,5 +1,10 @@
 <jsp:include page="./include/header.jsp"/>
 <div class="container-sm formTable">
+    <div class="row">
+        <div class="col">
+            <h2>Register</h2>
+        </div>
+    </div>
 	<form action="./register-submit" method="POST" modelAttribute="newUser">
 	    <div class="row">
             <div class="col">
