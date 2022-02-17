@@ -17,28 +17,28 @@
             </div>
         </div>
         <div class="row">
-            <div class="col col-md-6">
+            <div class="col-md-6">
                 <label for="password">Password</label><br>
                 <input id="password" type="password" name="password">
             </div>
-            <div class="col col-md-6">
+            <div class="col-md-6">
                 <label for="password_confirm">Confirm Password</label><br>
                 <input id="password_confirm" type="password">
             </div>
         </div>
         <div class="row">
-            <div class="col col-md-6">
+            <div class="col-md-6">
                 <label for="firstName">First Name</label><br>
                 <input id="firstName" type="password" name="firstName">
             </div>
-            <div class="col col-md-6">
+            <div class="col-md-6">
                 <label for="lastName">Last Name</label><br>
                 <input id="lastName" type="password" name="lastName">
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <input id="submit" type="submit" value="Register">
+                <input id="submit" type="submit" value="Register" class="btn btn-light">
             </div>
         </div>
 	</form>
