@@ -39,7 +39,7 @@
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active" id="onlineRules">
-                        <img src="./images/chun_large.png" class="d-block w-100" alt="...">
+                        <img src="/pub/images/chun_large.png" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>Online Rules</h5>
                             <p>A rule set resembling popular online clients such as Tenhou and MahjongSoul.</p>
