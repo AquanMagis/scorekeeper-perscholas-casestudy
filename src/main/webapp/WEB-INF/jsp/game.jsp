@@ -1,27 +1,27 @@
 <jsp:include page="./include/header.jsp"/>
 <div class="container formTable">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 scoreDisplay">
             <!--Score display-->
             <div class="row">
                 <div class="col" id="toimen">
-                    25000<br>Toimen
+                    East<br>25000<br>Toimen
                 </div>
             </div>
             <div class="row">
                 <div class="col-3" id="kamicha">
-                    25000<br>Kamicha
+                    South<br>25000<br>Kamicha
                 </div>
-                <div class="col-6">
+                <div class="col-6 my-auto" style="font-size:150%">
                     East 1-0
                 </div>
                 <div class="col-3" id="shimocha">
-                    25000<br>Shimocha
+                    North<br>25000<br>Shimocha
                 </div>
             </div>
             <div class="row">
                 <div class="col" id="self">
-                    25000<br>Self
+                    West<br>25000<br>Self
                 </div>
             </div>
         </div>
