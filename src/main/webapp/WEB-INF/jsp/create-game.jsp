@@ -1,4 +1,5 @@
 <!--TODO: Re-add all the logic for game rule changing that was lost in the html->jsp conversion.-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="./include/header.jsp"/>
 <style>
     .carousel-caption{
@@ -35,10 +36,21 @@
             <div id="ruleTemplates" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#ruleTemplates" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#ruleTemplates" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <c:forEach var="i" begin="1" end="${rulesetList.size() - 1}">
+                        <button type="button" data-bs-target="#ruleTemplates" data-bs-slide-to="${i}" aria-label="Slide ${i + 1}"></button>
+                    </c:forEach>
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active" id="onlineRules">
+                    <c:forEach items="${rulesetList}" var="ruleset">
+                        <div class='carousel-item ${rulesetList.indexOf(ruleset) == 0 ? "active" : ""}'>
+                            <img src=${ruleset.imageUrl} class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>${ruleset.setName}</h5>
+                                <p>${ruleset.description}</p>
+                            </div>
+                        </div>
+                    </c:forEach>
+                    <!--<div class="carousel-item active" id="onlineRules">
                         <img src="/pub/images/chun_large.png" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>Online Rules</h5>
@@ -51,7 +63,7 @@
                             <h5>WRC Rules</h5>
                             <p>A rule set resembling the official rules of the World Riichi Championship.</p>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#ruleTemplates" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

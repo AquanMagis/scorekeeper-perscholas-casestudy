@@ -37,7 +37,7 @@ VALUES
 ('Player-B', 'nosuch'),
 ('Player-C', 'nosuch');
 
-INSERT rule_set (
+INSERT ruleset (
 	set_name, description, image_url,
 	starting_score, ending_score,
 	repeat_value, riichi_value, tenpai_payment,
@@ -45,7 +45,7 @@ INSERT rule_set (
 VALUES
 ('Online Rules',
 'A rule set resembling popular online clients such as Tenhou and MahjongSoul.',
-'./images/chun_large.png',
+'/pub/images/chun_large.png',
 25000, 30000,
 100, 1000, 3000,
 4),
