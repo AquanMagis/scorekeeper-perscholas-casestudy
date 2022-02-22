@@ -10,8 +10,8 @@ import java.util.Map;
 @Getter
 @Setter
 @Entity
-@Table(name = "rule_set")
-public class RuleSet {
+@Table(name = "ruleset")
+public class Ruleset {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
