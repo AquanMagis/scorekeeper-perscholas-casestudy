@@ -13,6 +13,7 @@ import java.util.*;
 public class Game {
 	public static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
 	private static final int DEFAULT_STARTING_SCORE = 25000;
+	private static final int DEFAULT_ENDING_SCORE = 30000;
 	private static final int DEFAULT_REPEAT_VALUE = 100;
 	private static final int DEFAULT_RIICHI_VALUE = 1000;
 	private static final int DEFAULT_TENPAI_PAYMENT = 3000;
@@ -41,6 +42,7 @@ public class Game {
 	)
 	private List<Round> rounds = new LinkedList<>();
 	private int startingScore;
+	private int endingScore;
 	@Transient
 	private Map<Player, Integer> score = new HashMap<>();
 	private int currentRiichis = 0;
@@ -58,6 +60,7 @@ public class Game {
 	public Game(Player p1, Player p2, Player p3, Player p4, int startingScore){
 		players = List.of(p1, p2, p3, p4);
 		this.startingScore = startingScore;
+		this.endingScore = DEFAULT_ENDING_SCORE;
 		this.riichiValue = DEFAULT_RIICHI_VALUE;
 		this.repeatValue = DEFAULT_REPEAT_VALUE;
 		this.tenpaiPayment = DEFAULT_TENPAI_PAYMENT;

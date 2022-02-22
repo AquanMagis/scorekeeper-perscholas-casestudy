@@ -12,6 +12,12 @@ public class GameController {
 		return response;
 	}
 
+	@GetMapping("create-game/submit")
+	public ModelAndView createGameSubmit(){
+		ModelAndView response = new ModelAndView();
+		return response;
+	}
+
 	@GetMapping("game")
 	public ModelAndView game(){
 		ModelAndView response = new ModelAndView();
