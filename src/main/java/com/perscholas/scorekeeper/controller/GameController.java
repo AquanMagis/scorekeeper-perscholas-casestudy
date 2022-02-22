@@ -11,4 +11,10 @@ public class GameController {
 		ModelAndView response = new ModelAndView();
 		return response;
 	}
+
+	@GetMapping("game")
+	public ModelAndView game(){
+		ModelAndView response = new ModelAndView();
+		return response;
+	}
 }
