@@ -37,21 +37,22 @@ VALUES
 ('Player-B', 'nosuch'),
 ('Player-C', 'nosuch');
 
+# leftover_riichis: 0-winner 1-lost 2-returned
 INSERT ruleset (
 	set_name, description, image_url,
 	starting_score, ending_score,
 	repeat_value, riichi_value, tenpai_payment,
-	num_players)
+	num_players, leftover_riichis, busting)
 VALUES
 ('Online Rules',
 'A rule set resembling popular online clients such as Tenhou and MahjongSoul.',
 '/pub/images/chun_large.png',
 25000, 30000,
 100, 1000, 3000,
-4),
+4, 0, TRUE),
 ('WRC Rules',
 'A rule set resembling the official rules of the World Riichi Championship.',
 'https://images.squarespace-cdn.com/content/v1/5834cfa4f5e231d203fec0cb/1526941446143-MZKA55DK80I2NJLMBKGW/wrc_navy_v1.1_400dpi.png?format=1500w',
 30000, 30000,
 100, 1000, 3000,
-4);
+4, 1, FALSE);

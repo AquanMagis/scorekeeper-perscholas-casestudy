@@ -11,6 +11,8 @@ import java.util.*;
 @Entity
 @Table(name = "game")
 public class Game {
+	public enum EndgameRiichis{WINNER, LOST, RETURNED}
+
 	public static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
 	private static final int DEFAULT_STARTING_SCORE = 25000;
 	private static final int DEFAULT_ENDING_SCORE = 30000;

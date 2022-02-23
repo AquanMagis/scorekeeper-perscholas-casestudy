@@ -22,6 +22,8 @@ public class Ruleset {
 	private int riichiValue;
 	private int numPlayers;
 	private int tenpaiPayment;
+	private boolean busting;
+	private Game.EndgameRiichis leftoverRiichis;
 
 	private String imageUrl;
 	private String setName;

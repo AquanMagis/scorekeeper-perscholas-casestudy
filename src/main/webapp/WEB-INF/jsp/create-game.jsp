@@ -1,6 +1,7 @@
 <!--TODO: Re-add all the logic for game rule changing that was lost in the html->jsp conversion.-->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="./include/header.jsp"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <style>
     .carousel-caption{
         background-color: #000000DF;
@@ -30,6 +31,43 @@
         padding: 10px;
     }
 </style>
+<script>
+    var rulesetList = new Array();
+    <c:forEach items="${rulesetJsons}" var="ruleset">
+        ruleset = JSON.parse('${ruleset}');
+        rulesetList.push(ruleset);
+    </c:forEach>
+
+    // TODO: This is going to need a "confirm lose changes" prompt in the final version.
+    function adjustRules(to){
+        console.log(to);
+        let ruleset = rulesetList[to];
+        let startingScore = document.getElementById("startingScore");
+        let endingScore = document.getElementById("endingScore");
+        let busting = document.getElementById("busting");
+        //let leftovers = document.getElementById(left);
+
+        for(let field in ruleset){
+            let formField = document.getElementById(field);
+            if(formField){
+                console.log(formField.tagName);
+                if(formField.tagName == "SELECT")
+                    document.getElementById(ruleset[field].toLowerCase()).selected = true;
+                else if(formField.tagName = "INPUT" && formField.getAttribute("type") == "checkbox")
+                    formField.checked = ruleset[field];
+                else formField.value = ruleset[field];
+            }
+        }
+    }
+    function onLoad(){
+        let myCarousel = document.getElementById('ruleTemplates')
+        myCarousel.addEventListener('slide.bs.carousel', function () {
+            adjustRules(event.relatedTarget.getAttribute("data-ruleset"));
+        })
+        adjustRules(0);
+    }
+    $().ready(onLoad);
+</script>
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -42,7 +80,8 @@
                 </div>
                 <div class="carousel-inner">
                     <c:forEach items="${rulesetList}" var="ruleset">
-                        <div class='carousel-item ${rulesetList.indexOf(ruleset) == 0 ? "active" : ""}'>
+                        <c:set var="index" scope="request" value="${rulesetList.indexOf(ruleset)}"/>
+                        <div class='carousel-item ${index == 0 ? "active" : ""}' data-ruleset="${index}">
                             <img src=${ruleset.imageUrl} class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>${ruleset.setName}</h5>
@@ -50,20 +89,6 @@
                             </div>
                         </div>
                     </c:forEach>
-                    <!--<div class="carousel-item active" id="onlineRules">
-                        <img src="/pub/images/chun_large.png" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Online Rules</h5>
-                            <p>A rule set resembling popular online clients such as Tenhou and MahjongSoul.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item" id="wrcRules">
-                        <img src="https://images.squarespace-cdn.com/content/v1/5834cfa4f5e231d203fec0cb/1526941446143-MZKA55DK80I2NJLMBKGW/wrc_navy_v1.1_400dpi.png?format=1500w" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>WRC Rules</h5>
-                            <p>A rule set resembling the official rules of the World Riichi Championship.</p>
-                        </div>
-                    </div>-->
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#ruleTemplates" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -93,7 +118,7 @@
                 <tr>
                     <td>Leftover Riichi Sticks:</td>
                     <td>
-                        <select>
+                        <select id = "leftoverRiichis">
                             <option selected id="winner">To Winner</option>
                             <option id="lost">Lost</option>
                             <option id="returned">Returned</option>
