@@ -40,23 +40,25 @@
 
     // TODO: This is going to need a "confirm lose changes" prompt in the final version.
     function adjustRules(to){
-        console.log(to);
         let ruleset = rulesetList[to];
-        let startingScore = document.getElementById("startingScore");
-        let endingScore = document.getElementById("endingScore");
-        let busting = document.getElementById("busting");
-        //let leftovers = document.getElementById(left);
-
+        const form = document.getElementById("ruleForm");
         for(let field in ruleset){
+            if(field == "id") continue;
             let formField = document.getElementById(field);
-            if(formField){
-                console.log(formField.tagName);
-                if(formField.tagName == "SELECT")
-                    document.getElementById(ruleset[field].toLowerCase()).selected = true;
-                else if(formField.tagName = "INPUT" && formField.getAttribute("type") == "checkbox")
-                    formField.checked = ruleset[field];
-                else formField.value = ruleset[field];
+            if(!formField){
+                let newNode = document.createElement("input");
+                newNode.type = "hidden";
+                newNode.id = field;
+                newNode.name = field;
+                form.appendChild(newNode);
+                formField = document.getElementById(field);
             }
+            console.log(formField.tagName);
+            if(formField.tagName == "SELECT")
+                document.getElementById(ruleset[field].toLowerCase()).selected = true;
+            else if(formField.tagName = "INPUT" && formField.getAttribute("type") == "checkbox")
+                formField.checked = ruleset[field];
+            else formField.value = ruleset[field];
         }
     }
     function onLoad(){
@@ -101,33 +103,34 @@
             </div>
         </div>
         <div class="col-md-6 rule-entry">
-            <h2>Basic Rules</h2>
-            <table>
-                <tr>
-                    <td><label for="startingScore">Starting Score:</label></td>
-                    <td><input type="number" id="startingScore" step="1000"></td>
-                </tr>
-                <tr>
-                    <td><label for="endingScore">Ending Score:</label></td>
-                    <td><input type="number" id="endingScore" step="1000"></td>
-                </tr>
-                <tr>
-                    <td><label for="busting">Busting:</label></td>
-                    <td><input type="checkbox" id="busting"></td>
-                </tr>
-                <tr>
-                    <td>Leftover Riichi Sticks:</td>
-                    <td>
-                        <select id = "leftoverRiichis">
-                            <option selected id="winner">To Winner</option>
-                            <option id="lost">Lost</option>
-                            <option id="returned">Returned</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr><td><input class="btn btn-light" type="button" value="Finalize" onclick="window.alert('Not implemented.');"></td></tr>
-            </table>
-
+            <form action="create-game/submit" method = "POST" id="ruleForm" modelAttribute="game">
+                <h2>Basic Rules</h2>
+                <table>
+                    <tr>
+                        <td><label for="startingScore">Starting Score:</label></td>
+                        <td><input type="number" id="startingScore" step="1000" name="startingScore"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="endingScore">Ending Score:</label></td>
+                        <td><input type="number" id="endingScore" step="1000" name="endingScore"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="busting">Busting:</label></td>
+                        <td><input type="checkbox" id="busting" name="busting"></td>
+                    </tr>
+                    <tr>
+                        <td>Leftover Riichi Sticks:</td>
+                        <td>
+                            <select id = "leftoverRiichis" name="leftoverRiichis">
+                                <option selected id="winner" value="WINNER">To Winner</option>
+                                <option id="lost" value="LOST">Lost</option>
+                                <option id="returned" value="RETURNED">Returned</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td><input class="btn btn-light" type="submit" value="Finalize" action="./create-game/submit" method="POST"></td></tr>
+                </table>
+            </form>
         </div>
     </div>
 </div>

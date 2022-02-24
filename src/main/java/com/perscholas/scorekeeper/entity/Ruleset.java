@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -16,13 +14,18 @@ public class Ruleset extends GameAbstract{
 	private String setName;
 	private String description;
 
-	public void createGame(){
+	// This was ultimately unnecessary, saving it in case I change my mind at some point.
+	/*public Game createGame(){
 		Game game = new Game();
-		game.setStartingScore(startingScore);
-		game.setEndingScore(endingScore);
-		game.setRepeatValue(repeatValue);
-		game.setRiichiValue(riichiValue);
-		game.setNumPlayers(numPlayers);
-		game.setTenpaiPayment(tenpaiPayment);
-	}
+		GameAbstract rules = this;
+		Field[] fields = rules.getClass().getFields();
+		for(Field f: fields){
+			try {
+				ReflectionUtils.setField(f, game, f.get(this));
+			}
+			catch(IllegalAccessException e){}
+		}
+
+		return game;
+	}*/
 }
