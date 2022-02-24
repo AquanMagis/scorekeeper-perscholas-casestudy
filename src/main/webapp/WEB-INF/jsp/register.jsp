@@ -29,11 +29,11 @@
         <div class="row">
             <div class="col-md-6">
                 <label for="firstName">First Name</label><br>
-                <input id="firstName" type="password" name="firstName">
+                <input id="firstName" type="text" name="firstName">
             </div>
             <div class="col-md-6">
                 <label for="lastName">Last Name</label><br>
-                <input id="lastName" type="password" name="lastName">
+                <input id="lastName" type="text" name="lastName">
             </div>
         </div>
         <div class="row">
