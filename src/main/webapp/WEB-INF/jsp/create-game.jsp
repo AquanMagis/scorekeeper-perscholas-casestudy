@@ -1,7 +1,5 @@
-<!--TODO: Re-add all the logic for game rule changing that was lost in the html->jsp conversion.-->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="./include/header.jsp"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <style>
     .carousel-caption{
         background-color: #000000DF;
