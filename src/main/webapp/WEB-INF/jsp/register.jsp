@@ -5,7 +5,7 @@
             <h2>Register</h2>
         </div>
     </div>
-	<form action="./register-submit" method="POST" modelAttribute="newUser">
+	<form action="./register/submit" method="POST" modelAttribute="newUser">
 	    <div class="row">
             <div class="col">
                 <label for="username">Username</label><br>

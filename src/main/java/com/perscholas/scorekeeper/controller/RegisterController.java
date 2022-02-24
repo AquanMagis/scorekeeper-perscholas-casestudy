@@ -20,12 +20,12 @@ public class RegisterController {
 		return response;
 	}
 
-	@PostMapping("register-submit")
+	@PostMapping("register/submit")
 	public ModelAndView registerSubmit(@ModelAttribute("newUser")Player newUser){
 		ModelAndView response = new ModelAndView();
-		System.out.println(newUser.getUsername());
+		//System.out.println(newUser.getUsername());
 		response.setViewName("register");
-		System.out.println(playerDAO);
+		//System.out.println(playerDAO);
 		playerDAO.save(newUser);
 		return response;
 	}
