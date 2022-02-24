@@ -10,19 +10,13 @@ import java.util.*;
 @Setter
 @Entity
 @Table(name = "game")
-public class Game {
-	public enum EndgameRiichis{WINNER, LOST, RETURNED}
-
+public class Game extends GameAbstract{
 	public static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
 	private static final int DEFAULT_STARTING_SCORE = 25000;
 	private static final int DEFAULT_ENDING_SCORE = 30000;
 	private static final int DEFAULT_REPEAT_VALUE = 100;
 	private static final int DEFAULT_RIICHI_VALUE = 1000;
 	private static final int DEFAULT_TENPAI_PAYMENT = 3000;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 
 	private int wind = EAST;
 	private int currentDealer = EAST;
@@ -43,15 +37,9 @@ public class Game {
 			uniqueConstraints = {@UniqueConstraint(columnNames = {"game_id", "round_id"})}
 	)
 	private List<Round> rounds = new LinkedList<>();
-	private int startingScore;
-	private int endingScore;
 	@Transient
 	private Map<Player, Integer> score = new HashMap<>();
 	private int currentRiichis = 0;
-	private int repeatValue;
-	private int riichiValue;
-	private int numPlayers = 4;
-	private int tenpaiPayment;
 
 	public Game(){}
 

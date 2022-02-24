@@ -11,20 +11,7 @@ import java.util.Map;
 @Setter
 @Entity
 @Table(name = "ruleset")
-public class Ruleset {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
-
-	private int startingScore;
-	private int endingScore;
-	private int repeatValue;
-	private int riichiValue;
-	private int numPlayers;
-	private int tenpaiPayment;
-	private boolean busting;
-	private Game.EndgameRiichis leftoverRiichis;
-
+public class Ruleset extends GameAbstract{
 	private String imageUrl;
 	private String setName;
 	private String description;
