@@ -4,24 +4,24 @@
         <div class="col-md-6 scoreDisplay">
             <!--Score display-->
             <div class="row">
-                <div class="col" id="toimen">
-                    East<br>25000<br>Toimen
+                <div class="col" id="across">
+                    <div name="seat">East</div><div name="score">25000</div><div name="displayName">Toimen</div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-3" id="kamicha">
-                    South<br>25000<br>Kamicha
+            <div class="row" id="left">
+                <div class="col-3" id="left">
+                    <div name="seat">South</div><div name="score">25000</div><div name="displayName">Kamicha</div>
                 </div>
                 <div class="col-6 my-auto" style="font-size:150%">
                     East 1-0
                 </div>
-                <div class="col-3" id="shimocha">
-                    North<br>25000<br>Shimocha
+                <div class="col-3" id="right">
+                    <div name="seat">North</div><div name="score">25000</div><div name="displayName">Shimocha</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col" id="self">
-                    West<br>25000<br>Self
+                    <div name="seat">West</div><div name="score">25000</div><div name="displayName">Self</div>
                 </div>
             </div>
         </div>

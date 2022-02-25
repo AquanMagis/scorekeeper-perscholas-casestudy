@@ -17,7 +17,7 @@ public abstract class GameAbstract {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+	long id;
 
 	int startingScore;
 	int endingScore;

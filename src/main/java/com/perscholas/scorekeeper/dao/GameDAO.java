@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface GameDAO extends JpaRepository<Game, Long> {
 	List<Game> findAll();
-	Game findById(int id);
+	Game findById(long id);
 	Game findByPlayers(Player player);
 }

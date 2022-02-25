@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
@@ -36,21 +37,23 @@ public class GameController {
 		return response;
 	}
 
-	@PostMapping("create-game/submit")
+	@GetMapping("create-game/submit")
 	public ModelAndView createGameSubmit(@ModelAttribute("game") Game game){
 		ModelAndView response = new ModelAndView();
 		Gson gson = new Gson();
-		System.out.println(gson.toJson(game));
+		//System.out.println(gson.toJson(game));
 
-		response.addObject(game);
 		response.setViewName("redirect:/game");
 		gameDAO.save(game);
+		response.addObject("game", game.getId());
 		return response;
 	}
 
 	@GetMapping("game")
-	public ModelAndView game(){
+	public ModelAndView gameWithId(@RequestParam("game") long gameId){
 		ModelAndView response = new ModelAndView();
+		Game game = gameDAO.getById(gameId);
+		response.addObject("game", game);
 		return response;
 	}
 }

@@ -101,7 +101,7 @@
             </div>
         </div>
         <div class="col-md-6 rule-entry">
-            <form action="create-game/submit" method = "POST" id="ruleForm" modelAttribute="game">
+            <form action="create-game/submit" method = "GET" id="ruleForm" modelAttribute="game">
                 <h2>Basic Rules</h2>
                 <table>
                     <tr>
