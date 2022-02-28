@@ -97,4 +97,34 @@ public class Round {
 			ret.put(h.getWinner(), h);
 		return ret;
 	}
+
+	public void changePlayer(Player oldPlayer, Player newPlayer){
+		for(Hand h: hands){
+			if(h.getWinner().getId() == oldPlayer.getId())
+				h.setWinner(newPlayer);
+		}
+		int tenpaiIndex = tenpai.indexOf(oldPlayer);
+		if(tenpaiIndex > -1){
+			tenpai.set(tenpaiIndex, newPlayer);
+		}
+		int riichiIndex = inRiichi.indexOf(oldPlayer);
+		if(riichiIndex > -1){
+			tenpai.set(riichiIndex, newPlayer);
+		}
+		if(loser != null && loser.getId() == oldPlayer.getId())
+			loser = newPlayer;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Round round = (Round) o;
+		return id == round.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 }

@@ -160,6 +160,16 @@ public class Game extends GameAbstract{
 		return p == players.get(currentDealer);
 	}
 
+	private void changePlayer(Player player, int seat){
+		Player prevPlayer = players.get(seat);
+		players.set(seat, player);
+		for(Round r: rounds){
+			r.changePlayer(prevPlayer, player);
+		}
+		score.put(player, score.get(prevPlayer));
+		score.remove(prevPlayer);
+	}
+
 	// TODO: Either fix this stuff up or make proper tests.
 	/*public static void main(String[] args) {
 		Player p1 = new Player("Aaron");

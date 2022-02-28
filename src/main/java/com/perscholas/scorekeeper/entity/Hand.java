@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -76,6 +77,19 @@ public class Hand {
 		int nonDealer = (int)Math.ceil(getBaseValue() / 100.0) * 100;
 		int dealer = (int)Math.ceil(getBaseValue() * 2 / 100.0) * 100;
 		return new int[] {nonDealer, dealer};
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Hand hand = (Hand) o;
+		return id == hand.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 	public static void main(String[] args) {
