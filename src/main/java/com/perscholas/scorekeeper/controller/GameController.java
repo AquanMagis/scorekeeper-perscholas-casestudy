@@ -1,15 +1,16 @@
 package com.perscholas.scorekeeper.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import com.perscholas.scorekeeper.dao.GameDAO;
 import com.perscholas.scorekeeper.dao.RulesetDAO;
 import com.perscholas.scorekeeper.entity.Game;
 import com.perscholas.scorekeeper.entity.Ruleset;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,6 +23,8 @@ public class GameController {
 	RulesetDAO rulesetDAO;
 	@Autowired
 	GameDAO gameDAO;
+	@Autowired
+	Gson gson;
 
 	@GetMapping("create-game")
 	public ModelAndView createGame(){
@@ -29,7 +32,7 @@ public class GameController {
 		List<Ruleset> rulesets = rulesetDAO.findAll();
 
 		Gson gson = new Gson();
-		System.out.println(gson.toJson(rulesets));
+		//System.out.println(gson.toJson(rulesets));
 		List<String> rulesetJsons = Arrays.asList(rulesets.stream().map(gson::toJson).toArray(String[]::new));
 
 		response.addObject("rulesetList", rulesets);
@@ -40,7 +43,7 @@ public class GameController {
 	@GetMapping("create-game/submit")
 	public ModelAndView createGameSubmit(@ModelAttribute("game") Game game){
 		ModelAndView response = new ModelAndView();
-		Gson gson = new Gson();
+		//Gson gson = new Gson();
 		//System.out.println(gson.toJson(game));
 
 		response.setViewName("redirect:/game");
@@ -50,10 +53,13 @@ public class GameController {
 	}
 
 	@GetMapping("game")
-	public ModelAndView gameWithId(@RequestParam("game") long gameId){
+	public ModelAndView gameWithId(@RequestParam("game") long gameId) {
 		ModelAndView response = new ModelAndView();
-		Game game = gameDAO.getById(gameId);
-		response.addObject("game", game);
+
+		Game game = Hibernate.unproxy(gameDAO.getById(gameId), Game.class);
+		String gameJson = gson.toJson(game);
+
+		response.addObject("game", gameJson);
 		return response;
 	}
 }

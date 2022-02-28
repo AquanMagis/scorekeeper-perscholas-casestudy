@@ -51,7 +51,7 @@
                 form.appendChild(newNode);
                 formField = document.getElementById(field);
             }
-            console.log(formField.tagName);
+            //console.log(formField.tagName);
             if(formField.tagName == "SELECT")
                 document.getElementById(ruleset[field].toLowerCase()).selected = true;
             else if(formField.tagName = "INPUT" && formField.getAttribute("type") == "checkbox")
