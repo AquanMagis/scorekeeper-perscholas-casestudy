@@ -31,11 +31,12 @@ CREATE TABLE hand(
 	PRIMARY KEY(id)
 );
 
+#Dummy players for players without accounts.
 INSERT player (username, password)
 VALUES
 ('Player-A', 'nosuch'),
 ('Player-B', 'nosuch'),
-('Player-C', 'nosuch');
+('Player-C', 'nosuch'),
 ('Player-D', 'nosuch');
 
 # leftover_riichis: 0-winner 1-lost 2-returned
