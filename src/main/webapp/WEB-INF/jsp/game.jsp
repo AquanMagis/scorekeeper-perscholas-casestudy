@@ -5,7 +5,7 @@
     //const game = ${game};
     let handDisplay;
     let newHand;
-    let handCancelButton;
+    let handCancelButtons;
     let tsumoButton;
     let ronButton;
     let drawButton;
@@ -25,10 +25,12 @@
         tsumoForm.hidden = false;
     }
     function ron(){
-
+        newHand.hidden = true;
+        ronForm.hidden = false;
     }
     function draw(){
-
+        newHand.hidden = true;
+        drawForm.hidden = false;
     }
     function addRound(){
 
@@ -39,8 +41,10 @@
         newHand = document.getElementById("newHand");
         //newHand.remove();
 
-        handCancelButton = document.getElementById("handCancel");
-        handCancelButton.addEventListener("click", handCancel);
+        handCancelButtons = document.getElementsByName("handCancel");
+        for(b of handCancelButtons){
+            b.addEventListener("click", handCancel);
+        }
 
         tsumoForm = document.getElementById("tsumoForm");
         tsumoButton = document.getElementById("tsumoButton");
@@ -51,10 +55,9 @@
         ronButton = document.getElementById("ronButton");
         ronButton.addEventListener("click", ron);*/
 
-        //TODO: Uncomment this when the form is implemented.
-        /*drawForm = document.getElementById("drawForm");
+        drawForm = document.getElementById("drawForm");
         drawButton = document.getElementById("drawButton");
-        drawButton.addEventListener("click", draw);*/
+        drawButton.addEventListener("click", draw);
     }
 
     $().ready(onLoad);
@@ -92,7 +95,7 @@
                 <div class="col-3"><input type="button" class="btn btn-light" value="Ron" id="ronButton"></div>
                 <div class="col-3"><input type="button" class="btn btn-light" value="Draw" id="drawButton"></div>
             </div>
-            <form id="tsumoForm" action="game/tsumo-submit">
+            <form id="tsumoForm" action="game/tsumo-submit" hidden>
                 <div class="row">
                     <div class="col">
                         <!--TODO: Make this look nice later.-->
@@ -112,7 +115,25 @@
                 <div class="row">
                     <div class="col">
                         <input type="submit" class="btn btn-light" id="tsumoSubmit" value="Tsumo!">
-                        <input type="button" class="btn btn-danger" id="handCancel" value="Cancel">
+                        <input type="button" class="btn btn-danger" name="handCancel" value="Cancel">
+                    </div>
+                </div>
+            </form>
+            <form id="drawForm" action="game/draw-submit">
+                <div class="row">
+                    <div class="col">
+                        <!--TODO: Make this look nice later.-->
+                        Tenpai<br>
+                        <c:forEach items="${players}" var="player">
+                            <label for="drawPlayer${player.getId()}">${game.getDisplayName(player)}</label>
+                            <input type="checkbox" id="drawPlayer${player.getId()}" value="player.getId()">
+                        </c:forEach>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="submit" class="btn btn-light" id="drawSubmit" value="Draw">
+                        <input type="button" class="btn btn-danger" name="handCancel" value="Cancel">
                     </div>
                 </div>
             </form>
