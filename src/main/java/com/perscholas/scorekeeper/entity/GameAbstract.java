@@ -15,6 +15,7 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class GameAbstract {
 	public enum EndgameRiichis{WINNER, LOST, RETURNED}
+	public static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

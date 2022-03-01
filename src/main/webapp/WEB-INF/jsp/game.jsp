@@ -1,14 +1,34 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="./include/header.jsp"/>
 
 <script>
-    const game = ${game};
+    //const game = ${game};
     let handDisplay;
     let newHand;
     let handCancelButton;
+    let tsumoButton;
+    let ronButton;
+    let drawButton;
+    let tsumoForm;
+    let ronForm;
+    let drawForm;
+
+    const POSITIONS = ["selfScore", "rightScore", "acrossScore", "leftScore"]
 
     function handCancel(){
-        handCancelButton.hidden = true;
+        this.form.hidden=true;
+        //handCancelButton.hidden = true;
         newHand.hidden = false;
+    }
+    function tsumo(){
+        newHand.hidden = true;
+        tsumoForm.hidden = false;
+    }
+    function ron(){
+
+    }
+    function draw(){
+
     }
     function addRound(){
 
@@ -21,6 +41,20 @@
 
         handCancelButton = document.getElementById("handCancel");
         handCancelButton.addEventListener("click", handCancel);
+
+        tsumoForm = document.getElementById("tsumoForm");
+        tsumoButton = document.getElementById("tsumoButton");
+        tsumoButton.addEventListener("click", tsumo);
+
+        //TODO: Uncomment this when the form is implemented.
+        /*ronForm = document.getElementById("ronForm");
+        ronButton = document.getElementById("ronButton");
+        ronButton.addEventListener("click", ron);*/
+
+        //TODO: Uncomment this when the form is implemented.
+        /*drawForm = document.getElementById("drawForm");
+        drawButton = document.getElementById("drawButton");
+        drawButton.addEventListener("click", draw);*/
     }
 
     $().ready(onLoad);
@@ -52,17 +86,33 @@
             </div>
         </div>
         <div class="col-md-6" id="handDisplay">
-            <input type="button" id="handCancel" class="btn btn-light" value="Cancel">
             <div class="row" id="newHand">
                 <div class="col-3 my-auto">New Hand:</div>
                 <div class="col-3"><input type="button" class="btn btn-light" value="Tsumo" id="tsumoButton"></div>
                 <div class="col-3"><input type="button" class="btn btn-light" value="Ron" id="ronButton"></div>
                 <div class="col-3"><input type="button" class="btn btn-light" value="Draw" id="drawButton"></div>
             </div>
-            <form action="game/tsumo-submit">
+            <form id="tsumoForm" action="game/tsumo-submit">
                 <div class="row">
                     <div class="col">
-
+                        <!--TODO: Make this look nice later.-->
+                        Winner<br>
+                        <c:forEach items="${players}" var="player">
+                            <label for="tsumoPlayer${player.getId()}">${game.getDisplayName(player)}</label>
+                            <input type="radio" id="tsumoPlayer${player.getId()}" name="tsumoPlayer" value="player.getId()">
+                        </c:forEach>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="number" id="tsumoFu" step="10"><label for="tsumoFu">Fu</label>
+                        <input type="number" id="tsumoHan"><label for="tsumoHan">Han</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="submit" class="btn btn-light" id="tsumoSubmit" value="Tsumo!">
+                        <input type="button" class="btn btn-danger" id="handCancel" value="Cancel">
                     </div>
                 </div>
             </form>

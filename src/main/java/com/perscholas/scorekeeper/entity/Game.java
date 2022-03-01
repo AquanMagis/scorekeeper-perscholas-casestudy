@@ -11,16 +11,16 @@ import java.util.*;
 @Entity
 @Table(name = "game")
 public class Game extends GameAbstract{
-	public static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
 	private static final int DEFAULT_STARTING_SCORE = 25000;
 	private static final int DEFAULT_ENDING_SCORE = 30000;
 	private static final int DEFAULT_REPEAT_VALUE = 100;
 	private static final int DEFAULT_RIICHI_VALUE = 1000;
 	private static final int DEFAULT_TENPAI_PAYMENT = 3000;
+	private static final int DEFAULT_NUMBER_OF_PLAYERS = 4;
 
-	private int wind = EAST;
-	private int currentDealer = EAST;
-	private int repeats = 0;
+	private int wind;
+	private int currentDealer;
+	private int repeats;
 	@OneToMany(targetEntity = Player.class)
 	@OrderColumn(name = "starting_seat")
 	@JoinTable(
@@ -36,27 +36,43 @@ public class Game extends GameAbstract{
 			inverseJoinColumns = {@JoinColumn(name = "round_id")},
 			uniqueConstraints = {@UniqueConstraint(columnNames = {"game_id", "round_id"})}
 	)
-	private List<Round> rounds = new LinkedList<>();
+	private List<Round> rounds;
 	@Transient
-	private Map<Player, Integer> score = new HashMap<>();
-	private int currentRiichis = 0;
+	private Map<Player, Integer> score;
+	private int currentRiichis;
 
-	public Game(){}
+	@OrderColumn(name = "player_seat")
+	@ElementCollection(targetClass = String.class)
+	private List<String> displayNames;
+
+	public Game(){
+		numPlayers = DEFAULT_NUMBER_OF_PLAYERS;
+		wind = EAST;
+		currentDealer = EAST;
+		repeats = 0;
+		currentRiichis = 0;
+		displayNames = new ArrayList<>(numPlayers);
+		for(int i = 0; i < numPlayers; i++) displayNames.add(null);
+		score = new HashMap<>();
+		rounds = new LinkedList<>();
+	}
 
 	public Game(Player p1, Player p2, Player p3, Player p4){
 		this(p1, p2, p3, p4, DEFAULT_STARTING_SCORE);
 	}
 
 	public Game(Player p1, Player p2, Player p3, Player p4, int startingScore){
-		players = List.of(p1, p2, p3, p4);
+		this();
+		//players = List.of(p1, p2, p3, p4);
 		this.startingScore = startingScore;
 		this.endingScore = DEFAULT_ENDING_SCORE;
 		this.riichiValue = DEFAULT_RIICHI_VALUE;
 		this.repeatValue = DEFAULT_REPEAT_VALUE;
 		this.tenpaiPayment = DEFAULT_TENPAI_PAYMENT;
-		for(Player p: players){
+		/*for(Player p: players){
 			score.put(p, startingScore);
-		}
+		}*/
+		initializePlayerList(Arrays.asList(p1, p2, p3, p4));
 	}
 
 	public void addRound(Round round) {
@@ -168,6 +184,36 @@ public class Game extends GameAbstract{
 		}
 		score.put(player, score.get(prevPlayer));
 		score.remove(prevPlayer);
+	}
+
+	public String getDisplayName(int index){
+		if(displayNames == null || displayNames.size() < players.size()) return "ERROR";
+		return displayNames.get(index);
+	}
+
+	public String getDisplayName(Player p){
+		if(displayNames == null || displayNames.size() < players.size()) return p.getUsername();
+		int index = players.indexOf(p);
+		return getDisplayName(index);
+	}
+
+	public void setDisplayName(int index, String newName){
+		if(displayNames == null || displayNames.size() != numPlayers)
+			displayNames = new ArrayList<>(numPlayers);
+		displayNames.set(index, newName);
+	}
+
+	public void setDisplayName(Player p, String newName){
+		int index = players.indexOf(p);
+		setDisplayName(index, newName);
+	}
+
+	public void initializePlayerList(List<Player> players){
+		setPlayers(players);
+		for (Player player : players) {
+			score.put(player, startingScore);
+			setDisplayName(player, player.getUsername());
+		}
 	}
 
 	// TODO: Either fix this stuff up or make proper tests.
