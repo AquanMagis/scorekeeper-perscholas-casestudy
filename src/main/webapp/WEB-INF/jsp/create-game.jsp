@@ -119,7 +119,7 @@
                     <tr>
                         <td>Leftover Riichi Sticks:</td>
                         <td>
-                            <select id = "leftoverRiichis" name="leftoverRiichis">
+                            <select id = "leftoverRiichis" name="leftoverRiichis" class="form-select">
                                 <option selected id="winner" value="WINNER">To Winner</option>
                                 <option id="lost" value="LOST">Lost</option>
                                 <option id="returned" value="RETURNED">Returned</option>
