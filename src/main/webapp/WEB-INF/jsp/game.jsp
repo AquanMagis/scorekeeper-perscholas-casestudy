@@ -14,6 +14,7 @@
     let ronLoserSelect;
     let ronWinnerSelects;
     let ronRemoveButtons;
+    let riichiForm;
 
     const POSITIONS = ["selfScore", "rightScore", "acrossScore", "leftScore"]
 
@@ -23,14 +24,17 @@
         newHand.hidden = false;
     }
     function tsumo(){
+    	riichiForm.form = tsumoForm;
         newHand.hidden = true;
         tsumoForm.hidden = false;
     }
     function ron(){
+    	riichiForm.form = ronForm;
         newHand.hidden = true;
         ronForm.hidden = false;
     }
     function draw(){
+    	riichiForm.form = drawForm;
         newHand.hidden = true;
         drawForm.hidden = false;
     }
@@ -88,6 +92,8 @@
         drawButton = document.getElementById("drawButton");
         drawButton.addEventListener("click", draw);
 
+        riichiForm = document.getElementById("riichis");
+
         ronLoserSelect = document.getElementById("ronLoser");
         ronWinnerSelects = document.getElementsByName("ronWinner");
 
@@ -131,6 +137,15 @@
             </div>
         </div>
         <div class="col-md-6" id="handDisplay">
+        	<div class="row" id="riichis">
+        		<div class="col">
+        			Riichis<br>
+					<c:forEach items="${players}" var="player">
+						<label for="riichiPlayer${player.getId()}">${game.getDisplayName(player)}</label>
+						<input type="checkbox" id="riichiPlayer${player.getId()}" value="player.getId()">
+					</c:forEach>
+        		</div>
+        	</div>
             <div class="row" id="newHand">
                 <div class="col-3 my-auto">New Hand:</div>
                 <div class="col-3"><input type="button" class="btn btn-light" value="Tsumo" id="tsumoButton"></div>
@@ -162,7 +177,7 @@
                 </div>
             </form>
             <!--TODO: Make this look nice later.-->
-            <form id="ronForm" action="game/ron-submit">
+            <form id="ronForm" action="game/ron-submit" hidden>
             	<div class="row" id="ronLoserRow">
 					<div class="col-4">
 						Losing Player
