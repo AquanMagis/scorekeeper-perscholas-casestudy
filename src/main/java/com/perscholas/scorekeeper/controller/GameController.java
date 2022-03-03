@@ -8,11 +8,14 @@ import com.perscholas.scorekeeper.dao.RulesetDAO;
 import com.perscholas.scorekeeper.entity.Game;
 import com.perscholas.scorekeeper.entity.Player;
 import com.perscholas.scorekeeper.entity.Ruleset;
+import com.perscholas.scorekeeper.form.DrawForm;
+import com.perscholas.scorekeeper.form.TsumoForm;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -76,10 +79,35 @@ public class GameController {
 			p.setPassword(null);
 		}
 		String gameJson = gson.toJson(game);
+		DrawForm drawForm = new DrawForm();
 
 		response.addObject("game", game);
 		response.addObject("gameJson", gameJson);
 		response.addObject("players", game.getPlayers());
+		response.addObject("drawForm", drawForm);
+		return response;
+	}
+
+	@PostMapping("game/tsumo-submit")
+	public ModelAndView submitTsumo(@RequestParam("game") long gameId){
+		ModelAndView response = new ModelAndView();
+		response.setViewName("redirect:/game");
+		response.addObject(gameId);
+		return response;
+	}
+
+	@PostMapping("game/ron-submit")
+	public ModelAndView submitRon(@RequestParam("game") long gameId){
+		ModelAndView response = new ModelAndView();
+		response.setViewName("redirect:/game?game=" + gameId);
+		return response;
+	}
+
+	@PostMapping("game/draw-submit")
+	public ModelAndView submitDraw(@ModelAttribute("drawForm") DrawForm drawForm){
+		ModelAndView response = new ModelAndView();
+		System.out.println(gson.toJson(drawForm));
+		response.setViewName("redirect:/game?game=" + drawForm.getGameId());
 		return response;
 	}
 }

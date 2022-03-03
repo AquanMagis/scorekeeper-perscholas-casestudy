@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:include page="./include/header.jsp"/>
 
 <script>
@@ -23,20 +24,26 @@
         //handCancelButton.hidden = true;
         newHand.hidden = false;
     }
+    function handHandling(form){
+        newHand.hidden = true;
+    	riichiInputs = riichiForm.getElementsByTagName("input");
+    	for(input of riichiInputs){
+    		input.setAttribute("form", form.id);
+    	}
+		form.hidden = false;
+    }
     function tsumo(){
-    	riichiForm.form = tsumoForm;
+    	riichiForm.form = tsumoForm.id;
         newHand.hidden = true;
         tsumoForm.hidden = false;
     }
     function ron(){
-    	riichiForm.form = ronForm;
+    	riichiForm.form = ronForm.id;
         newHand.hidden = true;
         ronForm.hidden = false;
     }
     function draw(){
-    	riichiForm.form = drawForm;
-        newHand.hidden = true;
-        drawForm.hidden = false;
+        handHandling(drawForm);
     }
     function addRound(){
 
@@ -138,11 +145,15 @@
         </div>
         <div class="col-md-6" id="handDisplay">
         	<div class="row" id="riichis">
+        		<div hidden>
+        			<input type="hidden" id="gameId" name="gameId" value='${game.getId()}' path='id'>
+        		</div>
         		<div class="col">
         			Riichis<br>
 					<c:forEach items="${players}" var="player">
 						<label for="riichiPlayer${player.getId()}">${game.getDisplayName(player)}</label>
-						<input type="checkbox" id="riichiPlayer${player.getId()}" value="player.getId()">
+						<input type="checkbox" id="riichiPlayer${player.getId()}" name="inRiichi" value="${player.getId()}" path="inRiichi">
+						<input type="hidden" name="_inRiichi" value="on">
 					</c:forEach>
         		</div>
         	</div>
@@ -152,7 +163,7 @@
                 <div class="col-3"><input type="button" class="btn btn-light" value="Ron" id="ronButton"></div>
                 <div class="col-3"><input type="button" class="btn btn-light" value="Draw" id="drawButton"></div>
             </div>
-            <form id="tsumoForm" action="game/tsumo-submit" hidden>
+            <form id="tsumoForm" action="game/tsumo-submit" method="POST" hidden>
                 <div class="row">
                     <div class="col">
                         <!--TODO: Make this look nice later.-->
@@ -177,7 +188,7 @@
                 </div>
             </form>
             <!--TODO: Make this look nice later.-->
-            <form id="ronForm" action="game/ron-submit" hidden>
+            <form id="ronForm" action="game/ron-submit" method="POST" hidden>
             	<div class="row" id="ronLoserRow">
 					<div class="col-4">
 						Losing Player
@@ -239,14 +250,14 @@
 					</div>
 				</div>
             </form>
-            <form id="drawForm" action="game/draw-submit" hidden>
+            <form:form id="drawForm" action="game/draw-submit" method="POST" modelAttribute="drawForm" hidden="true">
                 <div class="row">
                     <div class="col">
                         <!--TODO: Make this look nice later.-->
                         Tenpai<br>
                         <c:forEach items="${players}" var="player">
                             <label for="drawPlayer${player.getId()}">${game.getDisplayName(player)}</label>
-                            <input type="checkbox" id="drawPlayer${player.getId()}" value="player.getId()">
+                            <form:checkbox id="drawPlayer${player.getId()}" value="${player.getId()}" path="inTenpai"/>
                         </c:forEach>
                     </div>
                 </div>
@@ -256,7 +267,7 @@
                         <input type="button" class="btn btn-danger" name="handCancel" value="Cancel">
                     </div>
                 </div>
-            </form>
+            </form:form>
             <!--Hand display/entry-->
             <table class="table table-dark">
                 <thead>
