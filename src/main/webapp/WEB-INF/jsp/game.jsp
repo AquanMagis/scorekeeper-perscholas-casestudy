@@ -33,14 +33,10 @@
 		form.hidden = false;
     }
     function tsumo(){
-    	riichiForm.form = tsumoForm.id;
-        newHand.hidden = true;
-        tsumoForm.hidden = false;
+    	handHandling(tsumoForm);
     }
     function ron(){
-    	riichiForm.form = ronForm.id;
-        newHand.hidden = true;
-        ronForm.hidden = false;
+    	handHandling(ronForm);
     }
     function draw(){
         handHandling(drawForm);
@@ -163,21 +159,23 @@
                 <div class="col-3"><input type="button" class="btn btn-light" value="Ron" id="ronButton"></div>
                 <div class="col-3"><input type="button" class="btn btn-light" value="Draw" id="drawButton"></div>
             </div>
-            <form id="tsumoForm" action="game/tsumo-submit" method="POST" hidden>
+            <form:form id="tsumoForm" action="game/tsumo-submit" method="POST" hidden="true" modelAttribute="tsumoForm">
                 <div class="row">
                     <div class="col">
                         <!--TODO: Make this look nice later.-->
                         Winner<br>
                         <c:forEach items="${players}" var="player">
                             <label for="tsumoPlayer${player.getId()}">${game.getDisplayName(player)}</label>
-                            <input type="radio" id="tsumoPlayer${player.getId()}" name="tsumoPlayer" value="player.getId()">
+                            <form:radiobutton id="tsumoPlayer${player.getId()}" name="tsumoPlayer" value="${player.getId()}" path="winnerId"/>
                         </c:forEach>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <input type="number" id="tsumoFu" step="10" min="20"><label for="tsumoFu">Fu</label>
-                        <input type="number" id="tsumoHan" min="1"><label for="tsumoHan">Han</label>
+                        <form:input type="number" id="tsumoFu" step="10" min="20" name="fu" path="fu"/><label for="tsumoFu">Fu</label>
+						<!--input type="hidden" name="fu" value="on"-->
+                        <form:input type="number" id="tsumoHan" min="1" name="han" path="han"/><label for="tsumoHan">Han</label>
+						<!--input type="hidden" name="han" value="on"-->
                     </div>
                 </div>
                 <div class="row">
@@ -186,7 +184,7 @@
                         <input type="button" class="btn btn-danger" name="handCancel" value="Cancel">
                     </div>
                 </div>
-            </form>
+            </form:form>
             <!--TODO: Make this look nice later.-->
             <form id="ronForm" action="game/ron-submit" method="POST" hidden>
             	<div class="row" id="ronLoserRow">

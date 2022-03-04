@@ -20,7 +20,7 @@ public class Round {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 
 	//private Map<Player, Hand> winners;
 	@OneToMany(targetEntity = Hand.class)
@@ -46,7 +46,7 @@ public class Round {
 	 *
 	 * @param playersInRiichi	Array of players who declared riichi this round.
 	 */
-	private Round(Player[] playersInRiichi){
+	public Round(Player[] playersInRiichi){
 		inRiichi = playersInRiichi == null ? new ArrayList<>() : Arrays.asList(playersInRiichi);
 	}
 

@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Hand {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 
 	@Column(name = "han")
 	private int han;

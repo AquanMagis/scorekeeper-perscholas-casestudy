@@ -18,7 +18,7 @@ public class Player {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 
 	@Column(name = "username", unique = true, nullable = false, length = TEXT_FIELD_LENGTH)
 	@NotNull

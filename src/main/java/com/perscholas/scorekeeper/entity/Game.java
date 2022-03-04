@@ -37,7 +37,13 @@ public class Game extends GameAbstract{
 			uniqueConstraints = {@UniqueConstraint(columnNames = {"game_id", "round_id"})}
 	)
 	private List<Round> rounds;
-	@Transient
+	@ElementCollection
+	@CollectionTable(
+			name = "game_score",
+			joinColumns = {@JoinColumn(name = "game_id")}
+	)
+	@MapKeyColumn(name = "player_id")
+	@Column(name = "score")
 	private Map<Player, Integer> score;
 	private int currentRiichis;
 
@@ -103,7 +109,8 @@ public class Game extends GameAbstract{
 
 	private void handleRiichis(Player bigWinner, List<Player> riichis){
 		currentRiichis += riichis.size();
-		for(Player p: riichis) score.put(p, score.get(p) - riichiValue);
+		for(Player p: riichis)
+			score.put(p, score.get(p) - riichiValue);
 		if(bigWinner != null){
 			score.put(bigWinner, score.get(bigWinner) + currentRiichis * riichiValue);
 			currentRiichis = 0;

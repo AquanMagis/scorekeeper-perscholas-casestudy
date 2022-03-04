@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 public abstract class BasicHandForm {
-	int gameId;
+	long gameId;
 	List<Long> inRiichi;
 }
