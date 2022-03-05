@@ -173,9 +173,7 @@
                 <div class="row">
                     <div class="col">
                         <form:input type="number" id="tsumoFu" step="10" min="20" name="fu" path="fu"/><label for="tsumoFu">Fu</label>
-						<!--input type="hidden" name="fu" value="on"-->
                         <form:input type="number" id="tsumoHan" min="1" name="han" path="han"/><label for="tsumoHan">Han</label>
-						<!--input type="hidden" name="han" value="on"-->
                     </div>
                 </div>
                 <div class="row">
