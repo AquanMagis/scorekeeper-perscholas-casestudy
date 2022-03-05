@@ -184,20 +184,18 @@
                 </div>
             </form:form>
             <!--TODO: Make this look nice later.-->
-            <form id="ronForm" action="game/ron-submit" method="POST" hidden>
+            <form:form id="ronForm" action="game/ron-submit" method="POST" modelAttribute = "ronForm" hidden="true">
             	<div class="row" id="ronLoserRow">
 					<div class="col-4">
 						Losing Player
 					</div>
 					<div class="col-8">
-						<select id="ronLoser" class="form-select">
+						<form:select id="ronLoser" class="form-select" path="loserId">
 							<option selected value="false"/>
 							<c:forEach items="${players}" var="player">
-								<option name="ronDropdownPlayer" value="${player.getId()}">
-									${game.getDisplayName(player)}
-								</option>
+								<form:option name="ronDropdownPlayer" value="${player.getId()}" label="${game.getDisplayName(player)}"/>
 							</c:forEach>
-						</select>
+						</form:select>
 					</div>
 				</div>
             	<c:forEach begin="1" end="3" var="i">
@@ -208,25 +206,23 @@
 							</div>
 							<div class="col-4">
 								<div class="input-group">
-									<select id="ronWinner${i}" name="ronWinner" class="form-select">
-										<option selected value="false"/>
+									<form:select id="ronWinner${i}" name="ronWinner" class="form-select" path="winnerIds[${i - 1}]">
+										<option selected>
 										<c:forEach items="${players}" var="player">
-											<option name="ronDropdownPlayer" value="${player.getId()}">
-												${game.getDisplayName(player)}
-											</option>
+											<form:option name="ronDropdownPlayer" value="${player.getId()}" label="${game.getDisplayName(player)}"/>
 										</c:forEach>
-									</select>
+									</form:select>
 									<c:if test="${i > 1}">
 										<input type="button" class="btn btn-danger" name="removeRonWinner" value="-" ${(i == 2)?'hidden':''} data-deactivate="ronDiv${i}" data-activate="addRonWinner${i-1}">
 									</c:if>
 								</div>
 							</div>
 							<div class="col-2">
-								<input type="number" id="ronFu${i}" class="form-control" step="10" min="20">
+								<form:input type="number" id="ronFu${i}" class="form-control" step="10" min="20" path="fu[${i - 1}]"/>
 								<label for="ronFu${i}">Fu</label>
 							</div>
 							<div class="col-2">
-								<input type="number" id="ronHan${i}" class="form-control" min="1">
+								<form:input type="number" id="ronHan${i}" class="form-control" min="1" path="han[${i - 1}]"/>
 								<label for="ronHan${i}">Han</label>
 							</div>
 						</div>
@@ -245,7 +241,7 @@
 						<input type="button" class="btn btn-danger" name="handCancel" value="Cancel">
 					</div>
 				</div>
-            </form>
+            </form:form>
             <form:form id="drawForm" action="game/draw-submit" method="POST" modelAttribute="drawForm" hidden="true">
                 <div class="row">
                     <div class="col">

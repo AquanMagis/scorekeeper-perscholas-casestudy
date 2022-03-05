@@ -121,8 +121,40 @@ public class GameController {
 	}
 
 	@PostMapping("game/ron-submit")
-	public ModelAndView submitRon(@RequestParam("game") long gameId){
+	public ModelAndView submitRon(@ModelAttribute("ronForm") RonForm ronForm){
 		ModelAndView response = new ModelAndView();
+		long gameId = ronForm.getGameId();
+		List<Player> inRiichi = createPlayerListFromIds(ronForm.getInRiichi());
+		Player loser = playerDAO.getById(ronForm.getLoserId());
+
+		/*System.out.println(ronForm.getLoserId());
+		System.out.println(ronForm.getWinnerIds()[0]);
+		System.out.println(ronForm.getFu()[0]);
+		System.out.println(ronForm.getHan()[0]);*/
+
+		List<Hand> handList = new LinkedList<>();
+
+		for(int i = 0; i < RonForm.ARRAY_LENGTH; i++){
+			Long playerId = ronForm.getWinnerIds()[i];
+			Integer han = ronForm.getHan()[i];
+			Integer fu = ronForm.getFu()[i];
+
+			if(playerId != null && han != null && fu != null) {
+				Player player = playerDAO.findById((long)playerId);
+
+				Hand hand = new Hand(player, han, fu);
+				handDAO.save(hand);
+				handList.add(hand);
+			}
+		}
+
+		Round round = new Round(handList, loser, inRiichi.toArray(Player[]::new));
+		roundDAO.save(round);
+
+		Game game = gameDAO.getById(gameId);
+		game.addRound(round);
+		gameDAO.save(game);
+
 		response.setViewName("redirect:/game?game=" + gameId);
 		return response;
 	}
