@@ -1,14 +1,8 @@
 package com.perscholas.scorekeeper.controller;
 
 import com.google.gson.Gson;
-import com.perscholas.scorekeeper.dao.GameDAO;
-import com.perscholas.scorekeeper.dao.PlayerDAO;
-import com.perscholas.scorekeeper.dao.RoundDAO;
-import com.perscholas.scorekeeper.dao.RulesetDAO;
-import com.perscholas.scorekeeper.entity.Game;
-import com.perscholas.scorekeeper.entity.Player;
-import com.perscholas.scorekeeper.entity.Round;
-import com.perscholas.scorekeeper.entity.Ruleset;
+import com.perscholas.scorekeeper.dao.*;
+import com.perscholas.scorekeeper.entity.*;
 import com.perscholas.scorekeeper.form.DrawForm;
 import com.perscholas.scorekeeper.form.RonForm;
 import com.perscholas.scorekeeper.form.TsumoForm;
@@ -36,6 +30,8 @@ public class GameController {
 	PlayerDAO playerDAO;
 	@Autowired
 	RoundDAO roundDAO;
+	@Autowired
+	HandDAO handDAO;
 	@Autowired
 	Gson gson;
 
@@ -79,7 +75,7 @@ public class GameController {
 	public ModelAndView gameWithId(@RequestParam("game") long gameId) {
 		ModelAndView response = new ModelAndView();
 
-		Game game = Hibernate.unproxy(gameDAO.getById(gameId), Game.class);
+		Game game = Hibernate.unproxy(gameDAO.findById(gameId), Game.class);
 		for(Player p: game.getPlayers()){
 			p.setPassword(null);
 		}
@@ -102,9 +98,25 @@ public class GameController {
 		ModelAndView response = new ModelAndView();
 
 		List<Player> inRiichi = createPlayerListFromIds(tsumoForm.getInRiichi());
-		System.out.println(tsumoForm.getFu() + "/" + tsumoForm.getHan());
+		//System.out.println(tsumoForm.getFu() + "/" + tsumoForm.getHan());
 
-		response.setViewName("redirect:/game?game=" + tsumoForm.getGameId());
+		Player winner = playerDAO.findById(tsumoForm.getWinnerId());
+		int fu = tsumoForm.getFu();
+		int han = tsumoForm.getHan();
+
+		Hand hand = new Hand(winner, han, fu);
+		handDAO.save(hand);
+
+		Round round = new Round(hand, inRiichi.toArray(Player[]::new));
+		roundDAO.save(round);
+
+		long gameId = tsumoForm.getGameId();
+		Game game = gameDAO.findById(gameId);
+		game.addRound(round);
+		gameDAO.save(game);
+
+
+		response.setViewName("redirect:/game?game=" + gameId);
 		return response;
 	}
 

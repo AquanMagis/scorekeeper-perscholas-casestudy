@@ -78,6 +78,10 @@ public class Round {
 		winType = Result.TSUMO;
 	}
 
+	public Round(Hand winningHand, Player[] playersInRiichi) throws IllegalArgumentException{
+		this(List.of(winningHand), playersInRiichi);
+	}
+
 	/**
 	 * Create a hand that made it to draw.
 	 * Aborts should be handled as though all four players made it to tenpai.
