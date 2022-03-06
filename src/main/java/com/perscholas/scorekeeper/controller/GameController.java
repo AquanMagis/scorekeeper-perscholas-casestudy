@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 @Controller
 public class GameController {
+	public final static String SESSION_ID = "playerId";
+
 	@Autowired
 	RulesetDAO rulesetDAO;
 	@Autowired
@@ -36,7 +38,7 @@ public class GameController {
 	Gson gson;
 
 	@GetMapping("create-game")
-	public ModelAndView createGame(){
+	public ModelAndView createGame(HttpSession session){
 		ModelAndView response = new ModelAndView();
 		List<Ruleset> rulesets = rulesetDAO.findAll();
 
@@ -46,6 +48,9 @@ public class GameController {
 
 		response.addObject("rulesetList", rulesets);
 		response.addObject("rulesetJsons", rulesetJsons);
+
+		//TODO: Remove this and add actual session management.
+		session.setAttribute(SESSION_ID, (long)4);
 		return response;
 	}
 
@@ -72,21 +77,29 @@ public class GameController {
 	}
 
 	@GetMapping("game")
-	public ModelAndView gameWithId(@RequestParam("game") long gameId) {
+	public ModelAndView gameWithId(@RequestParam("game") long gameId, HttpSession session) {
+		Game game = gameDAO.findById(gameId);
 		ModelAndView response = new ModelAndView();
+		Player currentUser = game.getPlayerById((Long)session.getAttribute(SESSION_ID));
+		//System.out.println(currentUser);
 
-		Game game = Hibernate.unproxy(gameDAO.findById(gameId), Game.class);
+		if(currentUser == null) {
+			return new ModelAndView("error");
+		}
+
+
+		//System.out.println(game.getPlayersFromPerspective(currentUser).get(0));
 		for(Player p: game.getPlayers()){
 			p.setPassword(null);
 		}
-		String gameJson = gson.toJson(game);
+		//String gameJson = gson.toJson(game);
 		TsumoForm tsumoForm = new TsumoForm();
 		RonForm ronForm = new RonForm();
 		DrawForm drawForm = new DrawForm();
 
 		response.addObject("game", game);
-		response.addObject("gameJson", gameJson);
-		response.addObject("players", game.getPlayers());
+		//response.addObject("gameJson", gameJson);
+		response.addObject("players", game.getPlayersFromPerspective(currentUser));
 		response.addObject("tsumoForm", tsumoForm);
 		response.addObject("ronForm", ronForm);
 		response.addObject("drawForm", drawForm);

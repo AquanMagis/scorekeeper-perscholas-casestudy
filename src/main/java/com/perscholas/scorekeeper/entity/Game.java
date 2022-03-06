@@ -21,7 +21,7 @@ public class Game extends GameAbstract{
 	private int wind;
 	private int currentDealer;
 	private int repeats;
-	@OneToMany(targetEntity = Player.class)
+	@ManyToMany(targetEntity = Player.class)
 	@OrderColumn(name = "starting_seat")
 	@JoinTable(
 			joinColumns = {@JoinColumn(name = "game_id")},
@@ -220,6 +220,44 @@ public class Game extends GameAbstract{
 		for (Player player : players) {
 			score.put(player, startingScore);
 			setDisplayName(player, player.getUsername());
+		}
+	}
+
+	public int getPlayerStartingSeat(Player player){
+		return players.indexOf(player);
+	}
+
+	public int getPlayerCurrentSeat(Player player){
+		return (getPlayerStartingSeat(player) + numPlayers - currentDealer) % numPlayers;
+	}
+
+	public List<Player> getPlayersFromPerspective(Player player){
+		int splitIndex = getPlayerStartingSeat(player);
+		List<Player> ret = players.subList(splitIndex, numPlayers);
+		ret.addAll(players.subList(0, splitIndex));
+
+		return ret;
+	}
+
+	public List<Player> getPlayersFromPerspective(long playerId){
+		for(Player p: players)
+			if(p.getId() == playerId) return getPlayersFromPerspective(p);
+		return null;
+	}
+
+	public Player getPlayerById(long id){
+		for(Player p: players)
+			if(p.getId() == id) return p;
+		return null;
+	}
+
+	public static String getWindAsString(int wind){
+		switch(wind){
+			case EAST: return "East";
+			case SOUTH: return "South";
+			case WEST: return "West";
+			case NORTH: return "North";
+			default: return "ERR";
 		}
 	}
 

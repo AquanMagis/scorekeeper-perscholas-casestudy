@@ -72,6 +72,24 @@
     		button.hidden = !button.hidden;
     	}
     }
+    function windNumToString(num){
+    	switch(num){
+    		case "0": return "East";
+    		case "1": return "South";
+    		case "2": return "West";
+    		case "3": return "North";
+    		default: return "ERR";
+    	}
+    }
+    function windNumToChar(num){
+    	switch(num){
+    		case "0": return "E";
+    		case "1": return "S";
+    		case "2": return "W";
+    		case "3": return "N";
+    		default: return "ERR";
+    	}
+    }
     function onLoad(){
         handDisplay = document.getElementById("handDisplay");
 
@@ -109,6 +127,13 @@
 			button.addEventListener("click", removeRonRow);
 		}
         //populateRonDropdowns();
+
+        let winds = document.getElementsByName("seat");
+        for(let element of winds){
+        	element.textContent = windNumToString(element.textContent);
+        }
+        let roundWind = document.getElementById("roundWind");
+        roundWind.textContent = windNumToString(roundWind.textContent);
     }
 
     $().ready(onLoad);
@@ -119,23 +144,34 @@
             <!--Score display-->
             <div class="row">
                 <div class="col" id="acrossScore">
-                    <div name="seat">East</div><div name="score">25000</div><div name="displayName">Toimen</div>
+                    <div name="seat">${game.getPlayerCurrentSeat(players.get(2))}</div>
+                    <div name="score">${game.getScore().get(players.get(2))}</div>
+                    <div name="displayName">${game.getDisplayName(players.get(2))}</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-4" id="leftScore">
-                    <div name="seat">South</div><div name="score">25000</div><div name="displayName">Kamicha</div>
+                    <div name="seat">${game.getPlayerCurrentSeat(players.get(3))}</div>
+                    <div name="score">${game.getScore().get(players.get(3))}</div>
+                    <div name="displayName">${game.getDisplayName(players.get(3))}</div>
                 </div>
                 <div class="col-4 my-auto" style="font-size:150%" id="round">
-                    <span id="roundWind">East</span> <span style="display: inline-block"><span id="deal">1<span>-<span id="bonus">0</span></span>
+                    <span id="roundWind">${game.getWind()}</span>
+                    <span style="display: inline-block">
+                    	<span id="deal">${game.getCurrentDealer() + 1}<span>-<span id="bonus">${game.getRepeats()}</span>
+					</span>
                 </div>
                 <div class="col-4" id="rightScore">
-                    <div name="seat">North</div><div name="score">25000</div><div name="displayName">Shimocha</div>
+                    <div name="seat">${game.getPlayerCurrentSeat(players.get(1))}</div>
+                    <div name="score">${game.getScore().get(players.get(1))}</div>
+                    <div name="displayName">${game.getDisplayName(players.get(1))}</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col" id="selfScore">
-                    <div name="seat">West</div><div name="score">25000</div><div name="displayName">Self</div>
+                    <div name="seat">${game.getPlayerCurrentSeat(players.get(0))}</div>
+                    <div name="score">${game.getScore().get(players.get(0))}</div>
+                    <div name="displayName">${game.getDisplayName(players.get(0))}</div>
                 </div>
             </div>
         </div>

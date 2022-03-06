@@ -37,7 +37,7 @@ VALUES
 ('Player-A', 'nosuch'),
 ('Player-B', 'nosuch'),
 ('Player-C', 'nosuch'),
-('Player-D', 'nosuch');
+('You', 'nosuch');
 
 # leftover_riichis: 0-winner 1-lost 2-returned
 INSERT ruleset (
