@@ -28,10 +28,10 @@ public class Round {
 	@ManyToOne
 	private Player loser;
 	@OrderColumn(name = "in_tenpai")
-	@OneToMany(targetEntity = Player.class)
+	@ManyToMany(targetEntity = Player.class)
 	private List<Player> tenpai;
 	@OrderColumn(name = "in_riichi")
-	@OneToMany(targetEntity = Player.class)
+	@ManyToMany(targetEntity = Player.class)
 	private List<Player> inRiichi;
 	@Column(name = "win_type")
 	private Result winType;
