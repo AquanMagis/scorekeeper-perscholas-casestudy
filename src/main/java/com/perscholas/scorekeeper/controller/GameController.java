@@ -9,6 +9,7 @@ import com.perscholas.scorekeeper.form.TsumoForm;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -111,8 +113,13 @@ public class GameController {
 	}
 
 	@PostMapping("game/tsumo-submit")
-	public ModelAndView submitTsumo(@ModelAttribute("tsumoForm") TsumoForm tsumoForm){
+	public ModelAndView submitTsumo(@ModelAttribute("tsumoForm") @Valid TsumoForm tsumoForm, BindingResult errors){
 		ModelAndView response = new ModelAndView();
+		long gameId = tsumoForm.getGameId();
+		if(errors.hasErrors()){
+			response.setViewName("redirect:/game?game=" + gameId);
+			return response;
+		}
 
 		List<Player> inRiichi = createPlayerListFromIds(tsumoForm.getInRiichi());
 		//System.out.println(tsumoForm.getFu() + "/" + tsumoForm.getHan());
@@ -127,7 +134,6 @@ public class GameController {
 		Round round = new Round(hand, inRiichi.toArray(Player[]::new));
 		roundDAO.save(round);
 
-		long gameId = tsumoForm.getGameId();
 		Game game = gameDAO.findById(gameId);
 		game.addRound(round);
 		gameDAO.save(game);
