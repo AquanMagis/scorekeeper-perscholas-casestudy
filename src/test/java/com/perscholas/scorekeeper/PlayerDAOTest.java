@@ -8,9 +8,10 @@ import com.perscholas.scorekeeper.entity.Player;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
-@DataJpaTest
+@SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PlayerDAOTest {
 	private static final String USERNAME = "tester";
@@ -19,12 +20,6 @@ public class PlayerDAOTest {
 
 	@Autowired
 	private PlayerDAO playerDAO;
-	@Autowired
-	private GameDAO gameDAO;
-	@Autowired
-	private RoundDAO roundDAO;
-	@Autowired
-	private HandDAO handDAO;
 
 	@Test
 	@Order(1)
@@ -52,6 +47,7 @@ public class PlayerDAOTest {
 	public void testUpdate(){
 		Player player = playerDAO.findByUsername(USERNAME);
 		player.setPassword(NEW_PASSWORD);
+		playerDAO.save(player);
 		Assertions.assertEquals(NEW_PASSWORD, playerDAO.findByUsername(USERNAME).getPassword());
 	}
 
