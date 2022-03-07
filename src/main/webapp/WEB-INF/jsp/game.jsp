@@ -134,6 +134,10 @@
         }
         let roundWind = document.getElementById("roundWind");
         roundWind.textContent = windNumToString(roundWind.textContent);
+        winds = document.getElementsByName("tableWind");
+		for(let element of winds){
+			element.textContent = windNumToChar(element.textContent);
+		}
     }
 
     $().ready(onLoad);
@@ -297,6 +301,7 @@
                 </div>
             </form:form>
             <!--Hand display/entry-->
+            <!--TODO: Put winners at top of table cell, line winner up with own hand.-->
             <table class="table table-dark">
                 <thead>
                     <tr>
@@ -305,6 +310,34 @@
                     </tr>
                 </thead>
                 <tbody>
+                	<c:forEach items="${rounds}" var="round" varStatus="status">
+                		<tr>
+							<th scope="row">
+								<span name="tableWind">${round.getWind()}</span><span name="tableRound">${round.getCurrentDealer() + 1}</span>-<span name="tableBonus">${round.getRepeats()}</span>
+							</th>
+							<td>
+								<c:if test='${round.getWinType().toString().equals("DRAW")}'>
+									Draw
+								</c:if>
+								<c:forEach items="${round.getHands()}" var="hand">
+									<div>${hand.getFu()}fu/${hand.getHan()}han
+									${round.getWinType().toString().substring(0, 1)}${round.getWinType().toString().toLowerCase().substring(1)}<div>
+								</c:forEach>
+							</td>
+							<td>
+								<c:set var="change" value="${round.getScoreChange()}"/>
+								<c:forEach items="${change.keySet()}" var="player">
+									<div>${game.getDisplayName(player)} (<span style='color: ${(change.get(player) >=0) ? "green":"red"}'>${(change.get(player) > 0)?"+":""}${change.get(player)}</span>)${round.getInRiichi().contains(player)?"<span style='color:red; background-color:white'>&#9679</span>":""}</div>
+								</c:forEach>
+							</td>
+							<td>
+								Edit
+								<c:if test="${status.isFirst()}">
+									|Delete
+								</c:if>
+							</td>
+						</tr>
+                	</c:forEach>
                     <tr>
                         <th scope="row">E2-0</th>
                         <td>13fu/20han Tsumo</td>

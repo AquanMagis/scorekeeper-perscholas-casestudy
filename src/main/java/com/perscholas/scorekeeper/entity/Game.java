@@ -83,6 +83,14 @@ public class Game extends GameAbstract{
 
 	public void addRound(Round round) {
 		rounds.add(round);
+		round.setWind(wind);
+		round.setCurrentDealer(currentDealer);
+		round.setRepeats(repeats);
+
+		Map<Player, Integer> scoreDifference = new HashMap<>();
+		for(Player p: score.keySet())
+			scoreDifference.put(p, score.get(p));
+
 		switch (round.getWinType()) {
 			case RON:
 				handleRon(round);
@@ -96,6 +104,14 @@ public class Game extends GameAbstract{
 			default:
 				System.err.println("Invalid round generated.");
 		}
+
+		for(Player p: score.keySet()){
+			int difference = score.get(p) - scoreDifference.get(p);
+			if(difference == 0) scoreDifference.remove(p);
+			else scoreDifference.put(p, difference);
+		}
+
+		round.setScoreChange(scoreDifference);
 	}
 
 	private void handleRepeats(boolean dealerSuccess, boolean draw){

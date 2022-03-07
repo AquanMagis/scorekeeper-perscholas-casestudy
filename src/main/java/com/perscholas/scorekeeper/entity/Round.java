@@ -36,6 +36,21 @@ public class Round {
 	@Column(name = "win_type")
 	private Result winType;
 
+	private int wind;
+	private int currentDealer;
+	private int repeats;
+
+	//This is going to be fed in by Game for now.
+	//TODO: move score handling methods from Game into Round.
+	@ElementCollection
+	@CollectionTable(
+			name = "round_score_change",
+			joinColumns = {@JoinColumn(name = "round_id")}
+	)
+	@MapKeyColumn(name = "player_id")
+	@Column(name = "score_change")
+	private Map<Player, Integer> scoreChange;
+
 	/**
 	 * Basic constructor for bean definition.
 	 */

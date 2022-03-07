@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -97,9 +98,12 @@ public class GameController {
 		RonForm ronForm = new RonForm();
 		DrawForm drawForm = new DrawForm();
 
+		Collections.reverse(game.getRounds());
+
 		response.addObject("game", game);
 		//response.addObject("gameJson", gameJson);
 		response.addObject("players", game.getPlayersFromPerspective(currentUser));
+		response.addObject("rounds", game.getRounds());
 		response.addObject("tsumoForm", tsumoForm);
 		response.addObject("ronForm", ronForm);
 		response.addObject("drawForm", drawForm);
