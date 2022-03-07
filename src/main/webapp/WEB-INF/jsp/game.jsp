@@ -54,16 +54,32 @@
     }
     function addRonRow(){
     	invertRonRemove();
-    	activate = this.getAttribute("data-activate");
+    	let activate = this.getAttribute("data-activate");
     	this.hidden = true;
     	document.getElementById(activate).hidden = false;
     }
     function removeRonRow(){
 		invertRonRemove();
-		deactivate = this.getAttribute("data-deactivate");
-		addButton = this.getAttribute("data-activate");
-		document.getElementById(addButton).hidden = false;
-		document.getElementById(deactivate).hidden = true;
+		let deactivate = document.getElementById(this.getAttribute("data-deactivate"));
+		let addButton = document.getElementById(this.getAttribute("data-activate"));
+
+		addButton.hidden = false;
+		deactivate.hidden = true;
+
+		let inputs = deactivate.getElementsByTagName("input");
+		for(let input of inputs){
+			if(input.type == "number")
+				input.value = null;
+		}
+
+		options = deactivate.getElementsByTagName("option");
+		for(let option of options){
+			console.log(option.text);
+			if(option.value.text == null){
+				option.selected = true;
+				break;
+			}
+		}
     }
     function invertRonRemove(){
     	//TODO: This is a cludgy hack that will break if you ever add sanma support.  Fix before then.
