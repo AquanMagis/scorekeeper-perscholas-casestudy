@@ -123,6 +123,24 @@ public class Game extends GameAbstract{
 		}
 	}
 
+	public Round removeRound(long roundId) {
+		Round lastRound = rounds.get(rounds.size() - 1);
+		if(roundId != lastRound.getId()) return null;
+
+		rounds.remove(rounds.size() - 1);
+		initializePlayerList(players);
+		List<Round> oldRounds = rounds;
+		rounds = new LinkedList<>();
+		currentRiichis = 0;
+		wind = EAST;
+		currentDealer = EAST;
+		repeats = 0;
+
+		for(Round r: oldRounds) addRound(r);
+
+		return lastRound;
+	}
+
 	private void handleRiichis(Player bigWinner, List<Player> riichis){
 		currentRiichis += riichis.size();
 		for(Player p: riichis)

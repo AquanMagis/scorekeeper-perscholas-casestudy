@@ -349,9 +349,9 @@
 								</c:forEach>
 							</td>
 							<td>
-								Edit
+								<!--Edit-->
 								<c:if test="${status.isFirst()}">
-									|Delete
+									<a href="delete-round?game=${game.getId()}&round=${round.getId()}"><input type="button" class="btn btn-danger" value="Delete"></a>
 								</c:if>
 							</td>
 						</tr>

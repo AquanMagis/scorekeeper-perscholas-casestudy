@@ -208,6 +208,22 @@ public class GameController {
 		return response;
 	}
 
+	@GetMapping("/game/delete-round")
+	public ModelAndView deleteRound(@RequestParam("game") long gameId, @RequestParam("round") long roundId){
+		ModelAndView response = new ModelAndView();
+
+		Game game = gameDAO.findById(gameId);
+		Round round = game.removeRound(roundId);
+		if(round != null) {
+			roundDAO.delete(round);
+		}
+
+		gameDAO.save(game);
+
+		response.setViewName("redirect:/game/play?game=" + gameId);
+		return response;
+	}
+
 	private List<Player> createPlayerListFromIds(List<Long> ids){
 		List<Player> ret = new LinkedList<>();
 		if(ids == null || ids.size() == 0) return ret;
