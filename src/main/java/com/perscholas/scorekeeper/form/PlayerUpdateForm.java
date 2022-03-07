@@ -6,10 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PlayerUpdateForm {
-	public String firstName;
-	public String showLastName;
-	public String lastName;
-	public String showFirstName;
-	public String displayName;
-	public String bio;
+	private String firstName;
+	private boolean showLastName;
+	private String lastName;
+	private boolean showFirstName;
+	private String displayName;
+	private String bio;
 }

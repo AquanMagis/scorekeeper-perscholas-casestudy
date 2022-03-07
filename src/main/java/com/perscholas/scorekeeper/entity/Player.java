@@ -41,6 +41,7 @@ public class Player {
 	@ColumnDefault("false")
 	private boolean showLastName;
 	private String bio;
+	private String displayName;
 
 	public Player() {
 		showFirstName = false;

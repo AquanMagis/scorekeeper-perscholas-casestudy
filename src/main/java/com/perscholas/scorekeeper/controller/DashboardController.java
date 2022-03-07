@@ -59,6 +59,19 @@ public class DashboardController {
 	public ModelAndView userEditSubmit(@ModelAttribute("playerUpdateForm") PlayerUpdateForm playerUpdateForm){
 		ModelAndView response = new ModelAndView("redirect:/user/edit");
 
+		UserDetails principal = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = principal.getUsername();
+		Player player = playerDAO.findByUsername(username);
+
+		player.setFirstName(playerUpdateForm.getFirstName());
+		player.setLastName(playerUpdateForm.getLastName());
+		player.setShowFirstName(playerUpdateForm.isShowFirstName());
+		player.setShowLastName(playerUpdateForm.isShowLastName());
+		player.setBio(playerUpdateForm.getBio());
+		player.setDisplayName(playerUpdateForm.getDisplayName());
+
+		playerDAO.save(player);
+
 		return response;
 	}
 

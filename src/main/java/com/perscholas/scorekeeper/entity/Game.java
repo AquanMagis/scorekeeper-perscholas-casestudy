@@ -253,7 +253,10 @@ public class Game extends GameAbstract{
 		setPlayers(players);
 		for (Player player : players) {
 			score.put(player, startingScore);
-			setDisplayName(player, player.getUsername());
+			if(getDisplayName(player) == null || getDisplayName(player).isEmpty()) {
+				String displayName = player.getDisplayName();
+				setDisplayName(player, (displayName == null || displayName.isEmpty()) ? player.getUsername() : displayName);
+			}
 		}
 	}
 

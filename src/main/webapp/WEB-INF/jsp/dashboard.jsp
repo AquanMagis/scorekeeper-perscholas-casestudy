@@ -17,6 +17,11 @@
     </div>
     <div class="row">
         <div class="col">
+            <a href="user/games"><input type="button" id="userControls" name="userControls" class="btn btn-light" value="Game Records"></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             <a href="logout"><input type="button" id="logout" name="logout" class="btn btn-light" value="Log Out"></a>
         </div>
     </div>
