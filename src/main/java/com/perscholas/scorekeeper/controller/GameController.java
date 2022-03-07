@@ -40,7 +40,7 @@ public class GameController {
 	@Autowired
 	Gson gson;
 
-	@GetMapping("create-game")
+	@GetMapping("game/create")
 	public ModelAndView createGame(HttpSession session){
 		ModelAndView response = new ModelAndView();
 		List<Ruleset> rulesets = rulesetDAO.findAll();
@@ -54,11 +54,13 @@ public class GameController {
 
 		//TODO: Remove this and add actual session management.
 		session.setAttribute(SESSION_ID, (long)4);
+
+		response.setViewName("create-game");
 		return response;
 	}
 
 	//TODO: This exposes passwords.  Make it not expose passwords.
-	@GetMapping("create-game/submit")
+	@GetMapping("game/create/submit")
 	public ModelAndView createGameSubmit(@ModelAttribute("game") Game game){
 		ModelAndView response = new ModelAndView();
 		//Gson gson = new Gson();
@@ -72,14 +74,14 @@ public class GameController {
 
 		game.initializePlayerList(Arrays.asList(p1, p2, p3, p4));
 
-		response.setViewName("redirect:/game");
+		response.setViewName("redirect:/game/play");
 		gameDAO.save(game);
 
 		response.addObject("game", game.getId());
 		return response;
 	}
 
-	@GetMapping("game")
+	@GetMapping("game/play")
 	public ModelAndView gameWithId(@RequestParam("game") long gameId, HttpSession session) {
 		Game game = gameDAO.findById(gameId);
 		ModelAndView response = new ModelAndView();
@@ -109,6 +111,8 @@ public class GameController {
 		response.addObject("tsumoForm", tsumoForm);
 		response.addObject("ronForm", ronForm);
 		response.addObject("drawForm", drawForm);
+
+		response.setViewName("game");
 		return response;
 	}
 
@@ -117,7 +121,7 @@ public class GameController {
 		ModelAndView response = new ModelAndView();
 		long gameId = tsumoForm.getGameId();
 		if(errors.hasErrors()){
-			response.setViewName("redirect:/game?game=" + gameId);
+			response.setViewName("redirect:/game/play?game=" + gameId);
 			return response;
 		}
 
@@ -139,7 +143,7 @@ public class GameController {
 		gameDAO.save(game);
 
 
-		response.setViewName("redirect:/game?game=" + gameId);
+		response.setViewName("redirect:/game/play?game=" + gameId);
 		return response;
 	}
 
@@ -178,7 +182,7 @@ public class GameController {
 		game.addRound(round);
 		gameDAO.save(game);
 
-		response.setViewName("redirect:/game?game=" + gameId);
+		response.setViewName("redirect:/game/play?game=" + gameId);
 		return response;
 	}
 
@@ -200,7 +204,7 @@ public class GameController {
 
 		gameDAO.save(game);
 
-		response.setViewName("redirect:/game?game=" + drawForm.getGameId());
+		response.setViewName("redirect:/game/play?game=" + drawForm.getGameId());
 		return response;
 	}
 

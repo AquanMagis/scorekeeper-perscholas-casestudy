@@ -1,6 +1,6 @@
 <jsp:include page="./include/header.jsp"/>
 <div class="container formTable">
-    <form action="./login-submit" method="POST">
+    <form action="./login/login-submit" method="POST">
         <div class="row">
             <div class="row">
                 <label for="username">Username or Email</label>

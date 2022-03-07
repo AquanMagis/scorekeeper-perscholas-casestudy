@@ -18,10 +18,10 @@ public class LoginController {
 		return response;
 	}
 
-	// TODO: This is placeholder for now. Implement later.
-	@PostMapping("login-submit")
+	/*// TODO: This is placeholder for now. Implement later.
+	@PostMapping("login/login-submit")
 	public ModelAndView loginSubmit(){
 		ModelAndView response = new ModelAndView("login");
 		return response;
-	}
+	}*/
 }

@@ -215,7 +215,7 @@
                 <div class="col-3"><input type="button" class="btn btn-light" value="Ron" id="ronButton"></div>
                 <div class="col-3"><input type="button" class="btn btn-light" value="Draw" id="drawButton"></div>
             </div>
-            <form:form id="tsumoForm" action="game/tsumo-submit" method="POST" hidden="true" modelAttribute="tsumoForm">
+            <form:form id="tsumoForm" action="tsumo-submit" method="POST" hidden="true" modelAttribute="tsumoForm">
                 <div class="row">
                     <div class="col">
                         <!--TODO: Make this look nice later.-->
@@ -242,7 +242,7 @@
                 </div>
             </form:form>
             <!--TODO: Make this look nice later.-->
-            <form:form id="ronForm" action="game/ron-submit" method="POST" modelAttribute = "ronForm" hidden="true">
+            <form:form id="ronForm" action="ron-submit" method="POST" modelAttribute = "ronForm" hidden="true">
             	<div class="row" id="ronLoserRow">
 					<div class="col-4">
 						Losing Player
@@ -295,12 +295,12 @@
 				</c:forEach>
 				<div class="row">
 					<div class="col">
-						<input type="submit" class="btn btn-light" id="drawSubmit" value="Ron!">
+						<input type="submit" class="btn btn-light" id="ronSubmit" value="Ron!">
 						<input type="button" class="btn btn-danger" name="handCancel" value="Cancel">
 					</div>
 				</div>
             </form:form>
-            <form:form id="drawForm" action="game/draw-submit" method="POST" modelAttribute="drawForm" hidden="true">
+            <form:form id="drawForm" action="draw-submit" method="POST" modelAttribute="drawForm" hidden="true">
                 <div class="row">
                     <div class="col">
                         <!--TODO: Make this look nice later.-->
