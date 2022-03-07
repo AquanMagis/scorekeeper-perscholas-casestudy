@@ -6,8 +6,11 @@ import com.perscholas.scorekeeper.entity.*;
 import com.perscholas.scorekeeper.form.DrawForm;
 import com.perscholas.scorekeeper.form.RonForm;
 import com.perscholas.scorekeeper.form.TsumoForm;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +26,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class GameController {
 	public final static String SESSION_ID = "playerId";
@@ -59,9 +63,8 @@ public class GameController {
 		return response;
 	}
 
-	//TODO: This exposes passwords.  Make it not expose passwords.
 	@GetMapping("game/create/submit")
-	public ModelAndView createGameSubmit(@ModelAttribute("game") Game game){
+	public ModelAndView createGameSubmit(@ModelAttribute("game") Game game, @RequestParam int startingWind){
 		ModelAndView response = new ModelAndView();
 		//Gson gson = new Gson();
 		//System.out.println(gson.toJson(game));
@@ -70,14 +73,25 @@ public class GameController {
 		Player p1 = playerDAO.findById(1);
 		Player p2 = playerDAO.findById(2);
 		Player p3 = playerDAO.findById(3);
-		Player p4 = playerDAO.findById(4);
 
-		game.initializePlayerList(Arrays.asList(p1, p2, p3, p4));
+
+		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Player player = playerDAO.findByUsername(principal.getUsername());
+		System.out.println(player.getId());
+		if(player == null){
+			player = playerDAO.findById(4);
+		}
+
+		List<Player> players = new LinkedList<>(Arrays.asList(p1, p2, p3));
+		players.add(startingWind, player);
+
+		game.initializePlayerList(players);
 
 		response.setViewName("redirect:/game/play");
 		gameDAO.save(game);
 
 		response.addObject("game", game.getId());
+		response.addObject("player", player);
 		return response;
 	}
 
@@ -85,18 +99,19 @@ public class GameController {
 	public ModelAndView gameWithId(@RequestParam("game") long gameId, HttpSession session) {
 		Game game = gameDAO.findById(gameId);
 		ModelAndView response = new ModelAndView();
-		Player currentUser = game.getPlayerById((Long)session.getAttribute(SESSION_ID));
+		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Player currentUser = playerDAO.findByUsername(principal.getUsername());
 		//System.out.println(currentUser);
 
-		if(currentUser == null) {
+		/*if(currentUser == null) {
 			return new ModelAndView("error");
-		}
+		}*/
 
 
 		//System.out.println(game.getPlayersFromPerspective(currentUser).get(0));
-		for(Player p: game.getPlayers()){
+		/*for(Player p: game.getPlayers()){
 			p.setPassword(null);
-		}
+		}*/
 		//String gameJson = gson.toJson(game);
 		TsumoForm tsumoForm = new TsumoForm();
 		RonForm ronForm = new RonForm();
@@ -122,6 +137,7 @@ public class GameController {
 		long gameId = tsumoForm.getGameId();
 		if(errors.hasErrors()){
 			response.setViewName("redirect:/game/play?game=" + gameId);
+			log.error("Invalid tsumo arguments.");
 			return response;
 		}
 

@@ -2,6 +2,7 @@ package com.perscholas.scorekeeper.controller;
 
 import com.perscholas.scorekeeper.dao.PlayerDAO;
 import com.perscholas.scorekeeper.entity.Player;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Slf4j
 @Controller
 public class RegisterController {
 	@Autowired
@@ -46,13 +48,12 @@ public class RegisterController {
 
 		try {
 			request.login(username, password);
-			System.out.println("Authenticating as " + username);
 		}
 		catch(Exception e){
-			System.out.println("Authentication failed.");
+			log.warn(e.getMessage());
 		}
 
-		response.setViewName("redirect:/game/create");
+		response.setViewName("redirect:/dashboard");
 		return response;
 	}
 

@@ -30,10 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("**").authenticated()
 				.and()
 
-
 				.formLogin()
 				.loginPage("/login")
 				.loginProcessingUrl("/login/login-submit")
+				.successForwardUrl("/dashboard")
 				.and()
 
 				.logout()

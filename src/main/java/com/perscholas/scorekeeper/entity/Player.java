@@ -3,6 +3,7 @@ package com.perscholas.scorekeeper.entity;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -35,9 +36,20 @@ public class Player {
 	// Linking Players to Games is already done in Game.java.
 	//private List<Game> gamesList;
 
-	public Player() {}
+	@ColumnDefault("false")
+	private boolean showFirstName;
+	@ColumnDefault("false")
+	private boolean showLastName;
+	private String bio;
+
+	public Player() {
+		showFirstName = false;
+		showLastName = false;
+		bio = "";
+	}
 
 	public Player(String username){
+		this();
 		this.username = username;
 	}
 

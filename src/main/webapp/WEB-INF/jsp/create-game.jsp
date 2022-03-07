@@ -126,6 +126,19 @@
                             </select>
                         </td>
                     </tr>
+                    <tr>
+                    	<td>Starting Wind:</td>
+                    	<td>
+                    		<label for="eastStart">East</label>
+                    		<input type="radio" name="startingWind" id="eastStart" value="0" checked>
+                    		<label for="eastStart">South</label>
+                    		<input type="radio" name="startingWind" id="eastStart" value="1">
+                    		<label for="eastStart">West</label>
+                    		<input type="radio" name="startingWind" id="eastStart" value="2">
+                    		<label for="eastStart">North</label>
+                    		<input type="radio" name="startingWind" id="eastStart" value="3">
+                    	</td>
+                    </tr>
                     <tr><td><input class="btn btn-light" type="submit" value="Finalize" action="./create-game/submit" method="POST"></td></tr>
                 </table>
             </form>
