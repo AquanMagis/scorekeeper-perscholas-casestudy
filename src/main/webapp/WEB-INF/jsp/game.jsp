@@ -154,11 +154,19 @@
 		for(let element of winds){
 			element.textContent = windNumToChar(element.textContent);
 		}
+
+		$("input[name='fu']").on("input", function(){
+			if(this.value <= 30) this.step = 5;
+			else this.step = 10;
+			if(this.value == 35){
+				this.value = 40;
+			}
+		});
     }
 
     $().ready(onLoad);
 </script>
-<div class="container formTable" style="height:80%">
+<div class="container formTable" style="//height:80%">
     <div class="row">
         <div class="col-md-6 scoreDisplay">
             <!--Score display-->
@@ -222,7 +230,7 @@
                         Winner<br>
                         <c:forEach items="${players}" var="player">
                             <label for="tsumoPlayer${player.getId()}">${game.getDisplayName(player)}</label>
-                            <form:radiobutton id="tsumoPlayer${player.getId()}" name="tsumoPlayer" value="${player.getId()}" path="winnerId"/>
+                            <form:radiobutton id="tsumoPlayer${player.getId()}" name="tsumoPlayer" value="${player.getId()}" path="winnerId" required="true"/>
                         </c:forEach>
                     </div>
                 </div>
