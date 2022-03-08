@@ -162,26 +162,46 @@
 				this.value = 40;
 			}
 		});
+
+		var oldName;
+		$(".displayNameButton").on("click", function(){
+			this.type="text";
+			oldName = this.value;
+			this.classList.remove("displayNameButton");
+			this.classList.add("displayNameInput");
+		});
+		$(".displayNameButton").blur(function(){
+			this.type="button";
+			if(this.value == "") this.value = oldName;
+			this.classList.add("displayNameButton");
+			this.classList.remove("displayNameInput");
+		});
     }
 
     $().ready(onLoad);
 </script>
-<div class="container formTable" style="//height:80%">
+<div class="container formTable overflow-auto" style="height:80%">
     <div class="row">
-        <div class="col-md-6 scoreDisplay">
+    	<div class="col-md-6">
+    	<div class="row">
+        <div class="col scoreDisplay">
             <!--Score display-->
             <div class="row">
                 <div class="col" id="acrossScore">
                     <div name="seat">${game.getPlayerCurrentSeat(players.get(2))}</div>
                     <div name="score">${game.getScore().get(players.get(2))}</div>
-                    <div name="displayName">${game.getDisplayName(players.get(2))}</div>
+                    <div name="displayName">
+                    	<input type="button" class="displayNameButton" name="displayName[2]" value="${game.getDisplayName(players.get(2))}">
+					</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-4" id="leftScore">
                     <div name="seat">${game.getPlayerCurrentSeat(players.get(3))}</div>
                     <div name="score">${game.getScore().get(players.get(3))}</div>
-                    <div name="displayName">${game.getDisplayName(players.get(3))}</div>
+                    <div name="displayName">
+                    	<input type="button" class="displayNameButton" name="displayName[3]" value="${game.getDisplayName(players.get(3))}">
+					</div>
                 </div>
                 <div class="col-4 my-auto" style="font-size:150%" id="round">
                     <span id="roundWind">${game.getWind()}</span>
@@ -192,16 +212,22 @@
                 <div class="col-4" id="rightScore">
                     <div name="seat">${game.getPlayerCurrentSeat(players.get(1))}</div>
                     <div name="score">${game.getScore().get(players.get(1))}</div>
-                    <div name="displayName">${game.getDisplayName(players.get(1))}</div>
+                    <div name="displayName">
+                    	<input type="button" class="displayNameButton" name="displayName[1]" value="${game.getDisplayName(players.get(1))}">
+					</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col" id="selfScore">
                     <div name="seat">${game.getPlayerCurrentSeat(players.get(0))}</div>
                     <div name="score">${game.getScore().get(players.get(0))}</div>
-                    <div name="displayName">${game.getDisplayName(players.get(0))}</div>
+                    <div name="displayName">
+                    	<input type="button" class="displayNameButton" name="displayName[0]" value="${game.getDisplayName(players.get(0))}">
+					</div>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
         <div class="col-md-6" id="handDisplay">
         	<div class="row" id="riichis">
@@ -328,44 +354,48 @@
             </form:form>
             <!--Hand display/entry-->
             <!--TODO: Put winners at top of table cell, line winner up with own hand.-->
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Round</th>
-                        <th scope="col">Outcome</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	<c:forEach items="${rounds}" var="round" varStatus="status">
-                		<tr>
-							<th scope="row">
-								<span name="tableWind">${round.getWind()}</span><span name="tableRound">${round.getCurrentDealer() + 1}</span>-<span name="tableBonus">${round.getRepeats()}</span>
-							</th>
-							<td>
-								<c:if test='${round.getWinType().toString().equals("DRAW")}'>
-									Draw
-								</c:if>
-								<c:forEach items="${round.getHands()}" var="hand">
-									<div>${hand.getFu()}fu/${hand.getHan()}han
-									${round.getWinType().toString().substring(0, 1)}${round.getWinType().toString().toLowerCase().substring(1)}<div>
-								</c:forEach>
-							</td>
-							<td>
-								<c:set var="change" value="${round.getScoreChange()}"/>
-								<c:forEach items="${change.keySet()}" var="player">
-									<div>${game.getDisplayName(player)} (<span style='color: ${(change.get(player) >=0) ? "green":"red"}'>${(change.get(player) > 0)?"+":""}${change.get(player)}</span>)${round.getInRiichi().contains(player)?"<span style='color:red; background-color:white'>&#9679</span>":""}</div>
-								</c:forEach>
-							</td>
-							<td>
-								<!--Edit-->
-								<c:if test="${status.isFirst()}">
-									<a href="delete-round?game=${game.getId()}&round=${round.getId()}"><input type="button" class="btn btn-danger" value="Delete"></a>
-								</c:if>
-							</td>
+            <div class="overflow-y-auto">
+				<table class="table table-dark overflow-y-auto">
+					<thead>
+						<tr>
+							<th scope="col">Round</th>
+							<th scope="col">Outcome</th>
+							<th scope="col">Result</th>
+							<th scope="col">Action</th>
 						</tr>
-                	</c:forEach>
-                </tbody>
-            </table>
+					</thead>
+					<tbody>
+						<c:forEach items="${rounds}" var="round" varStatus="status">
+							<tr>
+								<th scope="row">
+									<span name="tableWind">${round.getWind()}</span><span name="tableRound">${round.getCurrentDealer() + 1}</span>-<span name="tableBonus">${round.getRepeats()}</span>
+								</th>
+								<td>
+									<c:if test='${round.getWinType().toString().equals("DRAW")}'>
+										Draw
+									</c:if>
+									<c:forEach items="${round.getHands()}" var="hand">
+										<div>${hand.getFu()}fu/${hand.getHan()}han
+										${round.getWinType().toString().substring(0, 1)}${round.getWinType().toString().toLowerCase().substring(1)}<div>
+									</c:forEach>
+								</td>
+								<td>
+									<c:set var="change" value="${round.getScoreChange()}"/>
+									<c:forEach items="${change.keySet()}" var="player">
+										<div>${game.getDisplayName(player)} (<span style='color: ${(change.get(player) >=0) ? "green":"red"}'>${(change.get(player) > 0)?"+":""}${change.get(player)}</span>)${round.getInRiichi().contains(player)?"<span style='color:red; background-color:white'>&#9679</span>":""}</div>
+									</c:forEach>
+								</td>
+								<td>
+									<!--Edit-->
+									<c:if test="${status.isFirst()}">
+										<a href="delete-round?game=${game.getId()}&round=${round.getId()}"><input type="button" class="btn btn-danger" value="Delete"></a>
+									</c:if>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
         </div>
     </div>
 </div>
